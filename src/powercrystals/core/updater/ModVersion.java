@@ -30,7 +30,7 @@ public class ModVersion implements Comparable<ModVersion>
 	
 	public static ModVersion parse(String s)
 	{
-		String[] parts = s.split(":");
+		String[] parts = s.split(" ", 2);
 		String desc = "";
 		if(parts.length > 1)
 		{

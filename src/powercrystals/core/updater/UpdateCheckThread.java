@@ -9,7 +9,7 @@ import cpw.mods.fml.common.FMLLog;
 
 public class UpdateCheckThread extends Thread
 {
-	private static final String _releaseUrlBase = "https://github.com/powercrystals/";
+	private static final String _releaseUrlBase = "https://raw.github.com/powercrystals/";
 	private IUpdateableMod _mod;
 	
 	private boolean _checkComplete;
@@ -26,7 +26,7 @@ public class UpdateCheckThread extends Thread
 	{
 		try
 		{
-			URL versionFile = new URL(_releaseUrlBase + _mod.getModFolder() + "/VERSION");
+			URL versionFile = new URL(_releaseUrlBase + _mod.getModFolder() + "/master/VERSION");
 
 			BufferedReader reader = new BufferedReader(new InputStreamReader(versionFile.openStream()));
 			ModVersion newVer = ModVersion.parse(reader.readLine());

@@ -3,6 +3,8 @@ package powercrystals.core.updater;
 
 import java.util.EnumSet;
 
+import powercrystals.core.CoreCore;
+
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.IScheduledTickHandler;
 import cpw.mods.fml.common.TickType;
@@ -17,7 +19,10 @@ public class UpdateManager implements IScheduledTickHandler
 	{
 		_mod = mod;
 		_updateThread = new UpdateCheckThread(mod);
-		_updateThread.start();
+		if(CoreCore.doUpdateCheck.getBoolean(true))
+		{
+			_updateThread.start();
+		}
 	}
 
 	@Override

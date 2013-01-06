@@ -52,6 +52,7 @@ public class BlockPosition
 		x = tile.xCoord;
 		y = tile.yCoord;
 		z = tile.zCoord;
+		orientation = ForgeDirection.UNKNOWN;
 	}
 	
 	public static BlockPosition fromFactoryTile(IRotateableTile te)
@@ -153,6 +154,10 @@ public class BlockPosition
 	
 	public String toString ()
 	{
+		if(orientation == null)
+		{
+			return "{" + x + ", " + y + ", " + z + "}";
+		}
 		return "{" + x + ", " + y + ", " + z + ";" + orientation.toString() + "}";
 	}
 	

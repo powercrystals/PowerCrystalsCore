@@ -20,7 +20,7 @@ import cpw.mods.fml.relauncher.Side;
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class CoreCore implements IUpdateableMod
 {
-	public static final String version = "1.4.6R1.0.0";
+	public static final String version = "1.4.6R1.0.1";
 	public static final String modId = "PowerCrystalsCore";
 	public static final String modName = "PowerCrystals Core";
 	

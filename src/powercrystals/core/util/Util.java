@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import powercrystals.core.position.BlockPosition;
 
 public class Util
@@ -29,5 +30,22 @@ public class Util
 			}
 		}
 		return false;
+	}
+
+	public static ForgeDirection getOrientationFromSide(int side)
+	{
+		if (side == 0)
+			return ForgeDirection.DOWN;
+		if (side == 1)
+			return ForgeDirection.UP;
+		if (side == 2)
+			return ForgeDirection.WEST;
+		if (side == 3)
+			return ForgeDirection.EAST;
+		if (side == 4)
+			return ForgeDirection.SOUTH;
+		if (side == 5)
+			return ForgeDirection.NORTH;
+		return ForgeDirection.UNKNOWN;
 	}
 }

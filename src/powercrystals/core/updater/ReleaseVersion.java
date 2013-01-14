@@ -96,14 +96,15 @@ public class ReleaseVersion implements Comparable<ReleaseVersion>
 	@Override
 	public int compareTo(ReleaseVersion arg0)
 	{
+		if(this.major() != arg0.major()) return this.major() < arg0.major() ? -1 : 1;
+		if(this.minor() != arg0.minor()) return this.minor() < arg0.minor() ? -1 : 1;
+		if(this.patch() != arg0.patch()) return this.patch() < arg0.patch() ? -1 : 1;
+		
 		if(this.isStable() && !arg0.isStable()) return 1;
 		if(this.isRC() && arg0.isBeta()) return 1;
 		if(!this.isStable() && arg0.isStable()) return -1;
 		if(this.isBeta() && arg0.isRC()) return -1;
 		
-		if(this.major() != arg0.major()) return this.major() < arg0.major() ? -1 : 1;
-		if(this.minor() != arg0.minor()) return this.minor() < arg0.minor() ? -1 : 1;
-		if(this.patch() != arg0.patch()) return this.patch() < arg0.patch() ? -1 : 1;
 		if(this.rc() != arg0.rc()) return this.rc() < arg0.rc() ? -1 : 1;
 		if(this.beta() != arg0.beta()) return this.beta() < arg0.beta() ? -1 : 1;
 		return 0;

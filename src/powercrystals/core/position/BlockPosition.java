@@ -185,4 +185,12 @@ public class BlockPosition
 		}
 		return a;
 	}
+	
+	public static TileEntity getAdjacentTileEntity(TileEntity start, ForgeDirection direction)
+	{
+		BlockPosition p = new BlockPosition(start);
+		p.orientation = direction;
+		p.moveForwards(1);
+		return start.worldObj.getBlockTileEntity(p.x, p.y, p.z);
+	}
 }

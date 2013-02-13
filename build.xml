@@ -144,13 +144,6 @@
 			<fileset dir="${src.dir}/powercrystals"/>
 		</copy>
 		<copy todir="${mcpsrc.dir}" file="mcmod.info" overwrite="true"/>
-
-		<!-- Copy libraries -->
-		<copy todir="${mcp.dir}/lib" >
-			<fileset dir="lib" >
-				<patternset includes="*.jar" />
-			</fileset>
-		</copy>
 	</target>
 
 	<target name="download-forge" depends="download-ant-contrib" unless="forge-exists">

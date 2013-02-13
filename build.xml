@@ -65,7 +65,7 @@
 		<!-- Copy source -->
 		<mkdir dir="${mcpsrc.dir}/powercrystals" />
 		<copy todir="${mcpsrc.dir}/powercrystals" overwrite="true">
-			<fileset dir="${src.dir}/minecraft/powercrystals"/>
+			<fileset dir="${src.dir}/powercrystals"/>
 		</copy>
 		<copy todir="${mcpsrc.dir}" file="mcmod.info" overwrite="true"/>
 

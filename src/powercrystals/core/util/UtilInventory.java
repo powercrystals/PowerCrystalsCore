@@ -25,7 +25,7 @@ public class UtilInventory
 		int stackSizeLimit;
 
 		stackSizeLimit = Math.min(targetInventory.getInventoryStackLimit(), stackToAdd.getMaxStackSize());
-
+		
 		int slotIndex;
 		
 		while(amountLeftToAdd > 0)
@@ -50,7 +50,7 @@ public class UtilInventory
 				{
 					ItemStack s = stackToAdd.copy();
 					s.stackSize = stackSizeLimit;
-					targetInventory.setInventorySlotContents(slotIndex, stackToAdd);
+					targetInventory.setInventorySlotContents(slotIndex, stackToAdd.copy());
 					amountLeftToAdd -= s.stackSize;
 				}
 			}
@@ -87,8 +87,7 @@ public class UtilInventory
 			{
 				return i;
 			}
-			if(targetStack.itemID == stack.itemID && targetStack.getItemDamage() == stack.getItemDamage()
-					&& targetStack.stackSize < stackSizeLimit)
+			if(targetStack.itemID == stack.itemID && targetStack.getItemDamage() == stack.getItemDamage() && targetStack.stackSize < stackSizeLimit)
 			{
 				return i;
 			}

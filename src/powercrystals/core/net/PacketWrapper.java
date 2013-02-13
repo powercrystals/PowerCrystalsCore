@@ -18,12 +18,7 @@ public final class PacketWrapper
 	 * @param channel String name of the packet channel to use
 	 * @param packetID Integer value to be prefixed to the data array so you can distinguish packets
 	 * @param input Object Array to be encoded to the packet byte array.
-	 */
-	public static final int PacketIdTileDescription = 1;
-	public static final int PacketIdEnchanterButton = 2;
-	public static final int PacketIdHarvesterButton = 3;
-	public static final int PacketIdChronotyperButton = 4;
-	
+	 */	
 	public static Packet250CustomPayload createPacket(String channel, int packetID, Object[] input)
 	{
 		ByteArrayOutputStream bytes = new ByteArrayOutputStream();

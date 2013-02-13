@@ -1,0 +1,22 @@
+[
+{
+  "modid": "PowerCrystalsCore",
+  "name": "PowerCrystals Core",
+  "description": "Core functionality for Power Crystals' mods.",
+  "version": "1.0.1",
+  "mcversion": "1.4.6",
+  "url": "http://www.minecraftforum.net/topic/1629898-",
+  "updateUrl": "",
+  "authors": [
+    "PowerCrystals",
+	"AtomicStryker"
+  ],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]

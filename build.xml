@@ -24,7 +24,7 @@
 
 	<property file="${forge.dir}/forgeversion.properties" />
 	<condition property="forge.already.installed">
-		<equals arg1="${forge.build.number}" arg2="${forge.buildum}" />
+		<equals arg1="${forge.build.number}" arg2="${forge.buildnum}" />
 	</condition>
 
 	<property name="verclass.dir" value="${mcpsrc.dir}/powercrystals/core" />

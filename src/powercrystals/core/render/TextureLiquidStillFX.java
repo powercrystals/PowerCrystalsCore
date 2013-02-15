@@ -46,6 +46,7 @@ public class TextureLiquidStillFX extends FMLTextureFX
 		this.green = new float[tileSizeSquare];
 		this.blue = new float[tileSizeSquare];
 		this.alpha = new float[tileSizeSquare];
+		super.setup();
 	}
 	
 	@Override

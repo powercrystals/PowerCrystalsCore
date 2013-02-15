@@ -4,11 +4,13 @@ import string
 
 
 argversion = sys.argv
-	
-versionlist = string.split(argversion[1], "R")
+
+versionlist = argversion[1].split('R')
 
 mcversion = versionlist[0]
 mfrversion = versionlist[1]
+if(len(versionlist) > 2):
+	mfrversion = versionlist[1]+"R"+versionlist[2]
 
 mcmod=open('mcmod.info', 'r')
 
@@ -24,3 +26,4 @@ for mod in data:
 mcmod=open('mcmod.info', 'w')
 json.dump(data, mcmod, indent=4)
 
+print (mfrversion)

@@ -58,7 +58,7 @@
 			<arg value="-c"/>
 			<arg value="grep -o -P '[0-9.]+R[0-9.]+(RC[0-9]+)?(B[0-9]+)?' ${verclass.name}"/>
 		</exec>
-		<exec executable="python" osfamily="unix">
+		<exec executable="python" osfamily="unix" outputproperty="python.out">
 			<arg value="versionscript.py" />
 			<arg value="${grep.out}" />
 		</exec>
@@ -75,7 +75,7 @@
 	</condition>
 
 	<target name="install" depends="build">
-		<jar destfile="${dist.dir}/PowerCrystalsCore-${grep.out}-${build.number}.jar" basedir="${classes.dir}"/>
+		<jar destfile="${dist.dir}/PowerCrystalsCore-${python.out}-${build.number}.jar" basedir="${classes.dir}"/>
 		<delete dir="${classes.dir}" />
 		<delete dir="${mcp.dir}/reobf"/>
 	</target>

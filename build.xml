@@ -54,6 +54,13 @@
 	
 	
 	<target name="get-version" depends="setup-forge">
+		<!-- Copy source -->
+		<mkdir dir="${mcpsrc.dir}/powercrystals" />
+		<copy todir="${mcpsrc.dir}/powercrystals" overwrite="true">
+			<fileset dir="${src.dir}/powercrystals"/>
+		</copy>
+		<copy todir="${mcpsrc.dir}" file="mcmod.info" overwrite="true"/>
+
 		<exec dir="${verclass.dir}" executable="sh" osfamily="unix" outputproperty="grep.out">
 			<arg value="-c"/>
 			<arg value="grep -o -P '[0-9.]+R[0-9.]+(RC[0-9]+)?(B[0-9]+)?' ${verclass.name}"/>
@@ -78,16 +85,10 @@
 		<jar destfile="${dist.dir}/PowerCrystalsCore-${python.out}-${build.number}.jar" basedir="${classes.dir}"/>
 		<delete dir="${classes.dir}" />
 		<delete dir="${mcp.dir}/reobf"/>
+		<delete dir="${mcpsrc.dir}/powercrystals/core" />
 	</target>
 
 	<target name="build" depends="extract-dependencies" unless="already-compiled">
-		<!-- Copy source -->
-		<mkdir dir="${mcpsrc.dir}/powercrystals" />
-		<copy todir="${mcpsrc.dir}/powercrystals" overwrite="true">
-			<fileset dir="${src.dir}/powercrystals"/>
-		</copy>
-		<copy todir="${mcpsrc.dir}" file="mcmod.info" overwrite="true"/>
-
 		<!-- Recompile -->
 		<exec dir="${mcp.dir}" executable="cmd" osfamily="windows" failonerror="true">
 			<arg line="/c recompile.bat"/>

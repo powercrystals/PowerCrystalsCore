@@ -1,38 +1,58 @@
 package powercrystals.core;
 
 import java.io.File;
+import java.util.Arrays;
+
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 import powercrystals.core.updater.IUpdateableMod;
 import powercrystals.core.updater.UpdateManager;
 
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.Init;
-import cpw.mods.fml.common.Mod.PreInit;
+import cpw.mods.fml.common.DummyModContainer;
+import cpw.mods.fml.common.LoadController;
+import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 
-@Mod(modid = CoreCore.modId, name = CoreCore.modName, version = CoreCore.version)
-@NetworkMod(clientSideRequired = true, serverSideRequired = false)
-public class CoreCore implements IUpdateableMod
+public class CoreCore extends DummyModContainer implements IUpdateableMod
 {
-	public static final String version = "1.4.6R1.0.2B1";
+	public static final String version = "1.4.6R1.0.2B2";
 	public static final String modId = "PowerCrystalsCore";
 	public static final String modName = "PowerCrystals Core";
 	
 	public static Property doUpdateCheck;
 
-	@PreInit
+	public CoreCore()
+	{
+		super(new ModMetadata());
+		ModMetadata md = super.getMetadata();
+		md.modId = modId;
+		md.name = modName;
+		md.version = version.substring(version.indexOf('R') + 1);
+		md.authorList = Arrays.asList("PowerCrystals");
+		md.url = "http://www.minecraftforum.net/topic/1629898-";
+		md.description = "Core functionality for Power Crystals' mods.";
+	}
+	
+	@Override
+	public boolean registerBus(EventBus bus, LoadController controller)
+	{
+		bus.register(this);
+		return true;
+	}
+	
+	@Subscribe
 	public void preInit(FMLPreInitializationEvent evt)
 	{
 		loadConfig(evt.getSuggestedConfigurationFile());
 	}
 	
-	@Init
+	@Subscribe
 	public void load(FMLInitializationEvent evt)
 	{
 		TickRegistry.registerScheduledTickHandler(new UpdateManager(this), Side.CLIENT);

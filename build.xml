@@ -5,7 +5,7 @@
 	<property name="build.dir" value="build" />
 	<property name="classes.dir" value="${build.dir}/packaging" />
 	<property name="src.dir" value="src" />
-	<property name="forge.buildnum" value="524" />
+	<property name="forge.buildnum" value="527" />
 	<property name="forge.version" value="1.4.7-6.6.1.${forge.buildnum}" />
 	<property name="forge.url" value="http://files.minecraftforge.net/minecraftforge/minecraftforge-src-${forge.version}.zip" />
 	<property name="forge.dir" value="${build.dir}/forge" />
@@ -165,6 +165,7 @@
 			<fileset dir="${src.dir}/powercrystals"/>
 		</copy>
 		<copy todir="${mcpsrc.dir}" file="mcmod.info" overwrite="true"/>
+		<copy todir="${mcpsrc.dir}" file="pcc_at.cfg" overwrite="true"/>
 	</target>
 
 	<target name="download-forge" depends="download-ant-contrib" unless="forge-exists">

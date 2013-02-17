@@ -82,6 +82,11 @@
 	</condition>
 
 	<target name="install" depends="build">
+		<manifest file="MANIFEST.MF" mode="update">
+			<attribute name="FMLCorePlugin" value="powercrystals.core.CoreLoader" />
+			<attribute name="MCVersion" value="${build.ver}" />
+			<attribute name="BuildNumber" value="${build.number}" />
+		</manifest>
 		<jar destfile="${dist.dir}/PowerCrystalsCore-${python.out}-${build.number}.jar" basedir="${classes.dir}"/>
 		<delete dir="${classes.dir}" />
 		<delete dir="${mcp.dir}/reobf"/>

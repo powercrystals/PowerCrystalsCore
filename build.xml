@@ -87,7 +87,7 @@
 			<attribute name="MCVersion" value="${build.ver}" />
 			<attribute name="BuildNumber" value="${build.number}" />
 		</manifest>
-		<jar destfile="${dist.dir}/PowerCrystalsCore-${python.out}-${build.number}.jar" basedir="${classes.dir}"/>
+		<jar destfile="${dist.dir}/PowerCrystalsCore-${python.out}-${build.number}.jar" basedir="${classes.dir}" manifest="MANIFEST.MF" />
 		<delete dir="${classes.dir}" />
 		<delete dir="${mcp.dir}/reobf"/>
 		<delete dir="${mcpsrc.dir}/powercrystals/core" />

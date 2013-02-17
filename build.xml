@@ -34,7 +34,7 @@
 	<mkdir dir="${download.dir}"/>
 	<mkdir dir="${build.dir}" />
 
-		<condition property="have-apis">
+	<condition property="have-apis">
 		<and>
 			<available file="${download.dir}/BuildCraft-master.zip"/>
 		</and>
@@ -59,7 +59,7 @@
 		<copy todir="${mcpsrc.dir}/powercrystals" overwrite="true">
 			<fileset dir="${src.dir}/powercrystals"/>
 		</copy>
-		<copy todir="${mcpsrc.dir}" file="mcmod.info" overwrite="true"/>
+		<copy todir="${mcpsrc.dir}" file="pcc_at.cfg" overwrite="true"/>
 
 		<exec dir="${verclass.dir}" executable="sh" osfamily="unix" outputproperty="grep.out">
 			<arg value="-c"/>
@@ -111,6 +111,7 @@
 		<copy todir="${classes.dir}">
 			<fileset dir="${mcp.dir}/reobf/minecraft"/>
 		</copy>
+		<copy todir="${classes.dir}" file="${mcpsrc.dir}/pcc_at.cfg" overwrite="true"/>
 	</target>
 
 	<target name="build-number-there" if="env.BUILD_NUMBER" >
@@ -164,8 +165,6 @@
 		<copy todir="${mcpsrc.dir}/powercrystals" overwrite="true">
 			<fileset dir="${src.dir}/powercrystals"/>
 		</copy>
-		<copy todir="${mcpsrc.dir}" file="mcmod.info" overwrite="true"/>
-		<copy todir="${mcpsrc.dir}" file="pcc_at.cfg" overwrite="true"/>
 	</target>
 
 	<target name="download-forge" depends="download-ant-contrib" unless="forge-exists">

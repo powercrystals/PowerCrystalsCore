@@ -15,7 +15,7 @@ public class CoreLoader implements IFMLLoadingPlugin
 	@Override
 	public String[] getASMTransformerClass()
 	{
-		return new String[] { "powercrystals.core.PCCAccessTransformer" };
+		return new String[] { "powercrystals.core.at.PCCAccessTransformer" };
 	}
 
 	@Override

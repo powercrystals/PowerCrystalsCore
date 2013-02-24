@@ -6,8 +6,13 @@ import java.util.Arrays;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.OreDictionary.OreRegisterEvent;
+import powercrystals.core.oredict.OreDictTracker;
 import powercrystals.core.updater.IUpdateableMod;
 import powercrystals.core.updater.UpdateManager;
 
@@ -50,6 +55,24 @@ public class CoreCore extends DummyModContainer implements IUpdateableMod
 	public void preInit(FMLPreInitializationEvent evt)
 	{
 		loadConfig(evt.getSuggestedConfigurationFile());
+	}
+	
+	@Subscribe
+	public void init(FMLInitializationEvent evt)
+	{
+		for(String s : OreDictionary.getOreNames())
+		{
+			for(ItemStack stack : OreDictionary.getOres(s))
+			{
+				OreDictTracker.registerOreDictEntry(stack, s);
+			}
+		}
+	}
+
+	@ForgeSubscribe
+	public void registerOreEvent(OreRegisterEvent event)
+	{
+		OreDictTracker.registerOreDictEntry(event.Ore, event.Name);
 	}
 	
 	@Subscribe

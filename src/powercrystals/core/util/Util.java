@@ -14,20 +14,25 @@ public class Util
 		return b instanceof BlockFluid || b.getBlockHardness(world, x, y, z) < 0;
 	}
 	
-	public static boolean isRedstonePowered(TileEntity te)
+	public static boolean isRedstonePowered(World world, int x, int y, int z)
 	{
-		if(te.worldObj.isBlockIndirectlyGettingPowered(te.xCoord, te.yCoord, te.zCoord))
+		if(world.isBlockIndirectlyGettingPowered(x, y, z))
 		{
 			return true;
 		}
-		for(BlockPosition bp : new BlockPosition(te).getAdjacent(false))
+		for(BlockPosition bp : new BlockPosition(x, y, z).getAdjacent(false))
 		{
-			int blockId = te.worldObj.getBlockId(bp.x, bp.y, bp.z);
-			if(blockId == Block.redstoneWire.blockID && Block.blocksList[blockId].isProvidingStrongPower(te.worldObj, bp.x, bp.y, bp.z, 1))
+			int blockId = world.getBlockId(bp.x, bp.y, bp.z);
+			if(blockId == Block.redstoneWire.blockID && Block.blocksList[blockId].isProvidingStrongPower(world, bp.x, bp.y, bp.z, 1))
 			{
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	public static boolean isRedstonePowered(TileEntity te)
+	{
+		return isRedstonePowered(te.worldObj, te.xCoord, te.yCoord, te.zCoord);
 	}
 }

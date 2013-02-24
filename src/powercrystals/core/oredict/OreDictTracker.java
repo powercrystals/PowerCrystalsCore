@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.minecraft.item.ItemStack;
 
@@ -19,11 +20,17 @@ public final class OreDictTracker
 			_oreDictEntries.put(ii, new LinkedList<String>());
 		}
 		_oreDictEntries.get(ii).add(name);
-		System.out.println("Registered ore dictionary mapping to " + name + " for " + ii.itemId + ":" + ii.itemMeta);
 	}
 	
 	public static List<String> getNamesFromItem(ItemStack stack)
 	{
-		return _oreDictEntries.get(ItemIdentifier.fromItemStack(stack));
+		for(Entry<ItemIdentifier, List<String>> e : _oreDictEntries.entrySet())
+		{
+			if(e.getKey().itemId == stack.itemID && e.getKey().itemMeta == stack.getItemDamage())
+			{
+				return e.getValue();
+			}
+		}
+		return null;
 	}
 }

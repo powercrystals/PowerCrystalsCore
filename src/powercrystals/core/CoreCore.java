@@ -8,6 +8,7 @@ import com.google.common.eventbus.Subscribe;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.oredict.OreDictionary;
@@ -31,6 +32,8 @@ public class CoreCore extends DummyModContainer implements IUpdateableMod
 	public static final String modName = "PowerCrystals Core";
 	
 	public static Property doUpdateCheck;
+	
+	public static CoreCore instance;
 
 	public CoreCore()
 	{
@@ -67,6 +70,9 @@ public class CoreCore extends DummyModContainer implements IUpdateableMod
 				OreDictTracker.registerOreDictEntry(stack, s);
 			}
 		}
+		
+		instance = this;
+		MinecraftForge.EVENT_BUS.register(instance);
 	}
 
 	@ForgeSubscribe

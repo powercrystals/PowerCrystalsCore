@@ -20,7 +20,6 @@ public final class OreDictTracker
 			_oreDictEntries.put(ii, new LinkedList<String>());
 		}
 		_oreDictEntries.get(ii).add(name);
-		System.out.println("Registered ore dict entry to " + name + " for " + ii.itemId + ":" + ii.itemMeta);
 	}
 	
 	public static List<String> getNamesFromItem(ItemStack stack)
@@ -33,6 +32,5 @@ public final class OreDictTracker
 			}
 		}
 		return null;
-		//return _oreDictEntries.get(ItemIdentifier.fromItemStack(stack));
 	}
 }

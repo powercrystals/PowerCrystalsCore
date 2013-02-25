@@ -20,18 +20,19 @@ public final class OreDictTracker
 			_oreDictEntries.put(ii, new LinkedList<String>());
 		}
 		_oreDictEntries.get(ii).add(name);
+		System.out.println("Registered ore dict entry to " + name + " for " + ii.itemId + ":" + ii.itemMeta);
 	}
 	
 	public static List<String> getNamesFromItem(ItemStack stack)
 	{
-		/*for(Entry<ItemIdentifier, List<String>> e : _oreDictEntries.entrySet())
+		for(Entry<ItemIdentifier, List<String>> e : _oreDictEntries.entrySet())
 		{
 			if(e.getKey().itemId == stack.itemID && e.getKey().itemMeta == stack.getItemDamage())
 			{
 				return e.getValue();
 			}
 		}
-		return null;*/
-		return _oreDictEntries.get(ItemIdentifier.fromItemStack(stack));
+		return null;
+		//return _oreDictEntries.get(ItemIdentifier.fromItemStack(stack));
 	}
 }

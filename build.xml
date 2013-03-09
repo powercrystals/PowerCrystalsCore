@@ -143,9 +143,7 @@
 
 		<chmod file="${forge.dir}/install.sh" perm="+x"/>
 
-		<!-- if your building on OSX these 2 should be executable -->
-
-
+		<copy file="pcc_at.cfg" todir="${forge.dir}/accesstransformers/"/>
 
 		<!-- Install forge -->
 		<delete dir="${mcp.dir}" failonerror="no"/>

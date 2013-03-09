@@ -161,6 +161,23 @@ public class BlockPosition
 		return "{" + x + ", " + y + ", " + z + ";" + orientation.toString() + "}";
 	}
 	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(!(obj instanceof BlockPosition))
+		{
+			return false;
+		}
+		BlockPosition bp = (BlockPosition)obj;
+		return bp.x == x && bp.y == y && bp.z == z && bp.orientation == orientation;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return (x & 0xFFF) | (y & 0xFF << 8) | (z & 0xFFF << 12);
+	}
+	
 	public BlockPosition min(BlockPosition p)
 	{
 		return new BlockPosition(p.x > x ? x : p.x, p.y > y ? y : p.y, p.z > z ? z : p.z);
@@ -192,5 +209,18 @@ public class BlockPosition
 		p.orientation = direction;
 		p.moveForwards(1);
 		return start.worldObj.getBlockTileEntity(p.x, p.y, p.z);
+	}
+	
+	public static TileEntity getAdjacentTileEntity(TileEntity start, ForgeDirection direction, Class<? extends TileEntity> targetClass)
+	{
+		TileEntity te = getAdjacentTileEntity(start, direction);
+		if(targetClass.isAssignableFrom(te.getClass()))
+		{
+			return te;
+		}
+		else
+		{
+			return null;
+		}
 	}
 }

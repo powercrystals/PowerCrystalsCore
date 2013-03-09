@@ -19,6 +19,12 @@ public class ItemIdentifier
 		return ii.itemId == this.itemId && ii.itemMeta == this.itemMeta;
 	}
 	
+	@Override
+	public int hashCode()
+	{
+		return (itemId & 0xFFFF) | (itemMeta << 16);
+	}
+	
 	public static ItemIdentifier fromItemStack(ItemStack stack)
 	{
 		ItemIdentifier ii = new ItemIdentifier();

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import net.minecraft.item.ItemStack;
 
@@ -24,13 +23,6 @@ public final class OreDictTracker
 	
 	public static List<String> getNamesFromItem(ItemStack stack)
 	{
-		for(Entry<ItemIdentifier, List<String>> e : _oreDictEntries.entrySet())
-		{
-			if(e.getKey().itemId == stack.itemID && e.getKey().itemMeta == stack.getItemDamage())
-			{
-				return e.getValue();
-			}
-		}
-		return null;
+		return _oreDictEntries.get(ItemIdentifier.fromItemStack(stack));
 	}
 }

@@ -28,6 +28,8 @@ public abstract class Control
 	
 	public abstract void drawForeground(int mouseX, int mouseY);
 	
+	public void drawTooltip(int mouseX, int mouseY, float gameTicks) { }
+	
 	public GuiContainer getContainerScreen() { return containerScreen; }
 	
 	public final int getPosX() { return x; }

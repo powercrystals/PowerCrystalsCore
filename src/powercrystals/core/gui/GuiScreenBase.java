@@ -66,6 +66,22 @@ public abstract class GuiScreenBase extends GuiContainer
 	}
 	
 	@Override
+	public void drawScreen(int mouseX, int mouseY, float gameTicks)
+	{
+		super.drawScreen(mouseX, mouseY, gameTicks);
+		
+		mouseX -= guiLeft;
+		mouseY -= guiTop;
+		for(Control c : _controls)
+		{
+			if(c.getVisible() && c.getEnabled())
+			{
+				c.drawTooltip(mouseX, mouseY, gameTicks);
+			}
+		}
+	}
+	
+	@Override
 	public void handleMouseInput()
 	{
 		super.handleMouseInput();

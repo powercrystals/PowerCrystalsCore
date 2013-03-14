@@ -198,5 +198,13 @@ public abstract class ListBox extends Control
 		}
 	}
 	
+	public void scrollTo(int index)
+	{
+		if(index >= 0 && index < _elements.size())
+		{
+			_firstIndexDisplayed = index;
+		}
+	}
+	
 	protected abstract void onSelectionChanged(int newIndex, IListBoxElement newElement);
 }

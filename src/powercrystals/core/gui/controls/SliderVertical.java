@@ -26,6 +26,7 @@ public abstract class SliderVertical extends Control
 	
 	public void setValue(int value)
 	{
+		System.out.println("Setting value to " + value);
 		int oldValue = _value;
 		_value = value;
 		if(_value != oldValue)
@@ -62,15 +63,16 @@ public abstract class SliderVertical extends Control
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, containerScreen.mc.renderEngine.getTexture("/powercrystals/core/textures/button_disabled.png"));
 		}
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GuiRender.drawTexturedModalRect(sliderX,                   sliderY,                    0,                     0,                     sliderWidth / 2, sliderHeight / 2);
-		GuiRender.drawTexturedModalRect(sliderX,                   sliderY + sliderHeight / 2, 0,                     20 - sliderHeight / 2, sliderWidth / 2, sliderHeight / 2);
-		GuiRender.drawTexturedModalRect(sliderX + sliderWidth / 2, sliderY,                    200 - sliderWidth / 2, 0,                     sliderWidth / 2, sliderHeight / 2);
-		GuiRender.drawTexturedModalRect(sliderX + sliderWidth / 2, sliderY + sliderHeight / 2, 200 - width / 2,       20 - sliderHeight / 2, sliderWidth / 2, sliderHeight / 2);
+		GuiRender.drawTexturedModalRect(sliderX,                   sliderY,                    0,                     0,                      sliderWidth / 2, sliderHeight / 2);
+		GuiRender.drawTexturedModalRect(sliderX,                   sliderY + sliderHeight / 2, 0,                     256 - sliderHeight / 2, sliderWidth / 2, sliderHeight / 2);
+		GuiRender.drawTexturedModalRect(sliderX + sliderWidth / 2, sliderY,                    256 - sliderWidth / 2, 0,                      sliderWidth / 2, sliderHeight / 2);
+		GuiRender.drawTexturedModalRect(sliderX + sliderWidth / 2, sliderY + sliderHeight / 2, 256 - width / 2,       256 - sliderHeight / 2, sliderWidth / 2, sliderHeight / 2);
 	}
 	
 	@Override
 	public boolean onMousePressed(int mouseX, int mouseY, int mouseButton)
 	{
+		System.out.println("Starting drag");
 		_isDragging = true;
 		return true;
 	}
@@ -78,15 +80,17 @@ public abstract class SliderVertical extends Control
 	@Override
 	public void onMouseReleased(int mouseX, int mouseY)
 	{
+		System.out.println("Stopping drag");
 		_isDragging = false;
 	}
 	
 	@Override
-	public void onMouseMoved(int mouseX, int mouseY)
+	public void updateTick(int mouseX, int mouseY)
 	{
 		if(_isDragging)
 		{
-			setValue(mouseX - x);
+			System.out.println("Dragging to " + mouseY);
+			setValue(mouseY - y);
 		}
 	}
 	

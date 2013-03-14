@@ -48,7 +48,7 @@ public abstract class Control
 	
 	public boolean onMousePressed(int mouseX, int mouseY, int mouseButton) { return false; }
 	
-	public void onMouseMoved(int mouseX, int mouseY) { return; }
+	public void updateTick(int mouseX, int mouseY) { return; }
 	
 	public void onMouseReleased(int mouseX, int mouseY) { return; }
 	

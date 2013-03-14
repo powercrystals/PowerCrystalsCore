@@ -38,10 +38,10 @@ public abstract class Button extends Control
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, containerScreen.mc.renderEngine.getTexture("/powercrystals/core/textures/button_disabled.png"));
 		}
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GuiRender.drawTexturedModalRect(x,             y,              0,               0,               width / 2, height / 2);
-		GuiRender.drawTexturedModalRect(x,             y + height / 2, 0,               20 - height / 2, width / 2, height / 2);
-		GuiRender.drawTexturedModalRect(x + width / 2, y,              200 - width / 2, 0,               width / 2, height / 2);
-		GuiRender.drawTexturedModalRect(x + width / 2, y + height / 2, 200 - width / 2, 20 - height / 2, width / 2, height / 2);
+		GuiRender.drawTexturedModalRect(x,             y,              0,               0,                width / 2, height / 2);
+		GuiRender.drawTexturedModalRect(x,             y + height / 2, 0,               256 - height / 2, width / 2, height / 2);
+		GuiRender.drawTexturedModalRect(x + width / 2, y,              256 - width / 2, 0,                width / 2, height / 2);
+		GuiRender.drawTexturedModalRect(x + width / 2, y + height / 2, 256 - width / 2, 256 - height / 2, width / 2, height / 2);
 	}
 
 	@Override

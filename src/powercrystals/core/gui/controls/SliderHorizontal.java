@@ -61,10 +61,10 @@ public abstract class SliderHorizontal extends Control
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, containerScreen.mc.renderEngine.getTexture("/powercrystals/core/textures/button_disabled.png"));
 		}
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GuiRender.drawTexturedModalRect(sliderX,                   sliderY,                    0,                     0,                     sliderWidth / 2, sliderHeight / 2);
-		GuiRender.drawTexturedModalRect(sliderX,                   sliderY + sliderHeight / 2, 0,                     20 - sliderHeight / 2, sliderWidth / 2, sliderHeight / 2);
-		GuiRender.drawTexturedModalRect(sliderX + sliderWidth / 2, sliderY,                    200 - sliderWidth / 2, 0,                     sliderWidth / 2, sliderHeight / 2);
-		GuiRender.drawTexturedModalRect(sliderX + sliderWidth / 2, sliderY + sliderHeight / 2, 200 - width / 2,       20 - sliderHeight / 2, sliderWidth / 2, sliderHeight / 2);
+		GuiRender.drawTexturedModalRect(sliderX,                   sliderY,                    0,                     0,                      sliderWidth / 2, sliderHeight / 2);
+		GuiRender.drawTexturedModalRect(sliderX,                   sliderY + sliderHeight / 2, 0,                     256 - sliderHeight / 2, sliderWidth / 2, sliderHeight / 2);
+		GuiRender.drawTexturedModalRect(sliderX + sliderWidth / 2, sliderY,                    256 - sliderWidth / 2, 0,                      sliderWidth / 2, sliderHeight / 2);
+		GuiRender.drawTexturedModalRect(sliderX + sliderWidth / 2, sliderY + sliderHeight / 2, 256 - width / 2,       256 - sliderHeight / 2, sliderWidth / 2, sliderHeight / 2);
 	}
 	
 	@Override
@@ -81,7 +81,7 @@ public abstract class SliderHorizontal extends Control
 	}
 	
 	@Override
-	public void onMouseMoved(int mouseX, int mouseY)
+	public void updateTick(int mouseX, int mouseY)
 	{
 		if(_isDragging)
 		{

@@ -79,6 +79,16 @@ public abstract class GuiScreenBase extends GuiContainer
 				c.drawTooltip(mouseX, mouseY, gameTicks);
 			}
 		}
+		
+		for(int i = _controls.size() - 1; i >= 0; i--)
+		{
+			Control c = _controls.get(i);
+			if(!c.visible || !c.enabled)
+			{
+				continue;
+			}
+			c.updateTick(mouseX, mouseY);
+		}
 	}
 	
 	@Override
@@ -146,18 +156,6 @@ public abstract class GuiScreenBase extends GuiContainer
 					continue;
 				}
 				c.onMouseReleased(mouseX, mouseY);
-			}
-		}
-		else
-		{
-			for(int i = _controls.size() - 1; i >= 0; i--)
-			{
-				Control c = _controls.get(i);
-				if(!c.visible || !c.enabled)
-				{
-					continue;
-				}
-				c.onMouseMoved(mouseX, mouseY);
 			}
 		}
 		

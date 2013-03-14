@@ -46,7 +46,11 @@ public abstract class Control
 	public final boolean getVisible() { return visible; }
 	public final void setVisible(boolean visible) { this.visible = visible; }
 	
-	public boolean onMouseClicked(int mouseX, int mouseY, int mouseButton) { return false; }
+	public boolean onMousePressed(int mouseX, int mouseY, int mouseButton) { return false; }
+	
+	public void onMouseMoved(int mouseX, int mouseY) { return; }
+	
+	public void onMouseReleased(int mouseX, int mouseY) { return; }
 	
 	public boolean onMouseWheel(int mouseX, int mouseY, int movement) { return false; }
 	

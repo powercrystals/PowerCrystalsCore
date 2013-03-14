@@ -117,6 +117,10 @@
 			<fileset dir="${mcp.dir}/reobf/minecraft"/>
 		</copy>
 		<copy todir="${classes.dir}" file="${mcpsrc.dir}/pcc_at.cfg" overwrite="true"/>
+		
+		<copy todir="${classes.dir}/powercrystals/core/textures">
+			<fileset dir="${mcpsrc.dir}/powercrystals/core/textures" />
+		</copy>
 	</target>
 
 	<target name="build-number-there" if="env.BUILD_NUMBER" >

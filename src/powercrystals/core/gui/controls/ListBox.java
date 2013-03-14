@@ -13,7 +13,7 @@ import powercrystals.core.gui.GuiRender;
 
 public abstract class ListBox extends Control
 {
-	public int borderColor = new GuiColor(120, 120, 120, 255).getColor();;
+	public int borderColor = new GuiColor(120, 120, 120, 255).getColor();
 	public int backgroundColor = new GuiColor(0, 0, 0, 255).getColor();
 	public int selectedLineColor = new GuiColor(0, 0, 0, 255).getColor();
 	public int textColor = new GuiColor(150, 150, 150, 255).getColor();
@@ -23,10 +23,6 @@ public abstract class ListBox extends Control
 	private int _marginLeft = 2;
 	private int _marginRight = 2;
 	private int _marginBottom = 2;
-	
-	private int _scrollWidth = 10;
-	private int _scrollIndicatorWidth = 8;
-	private int _scrollIndicatorHeight = 4;
 	
 	private List<IListBoxElement> _elements = new LinkedList<IListBoxElement>();
 	
@@ -60,7 +56,7 @@ public abstract class ListBox extends Control
 	
 	public int getContentWidth()
 	{
-		return width - _marginLeft - _marginRight - _scrollWidth;
+		return width - _marginLeft - _marginRight;
 	}
 	
 	public int getContentHeight()
@@ -106,13 +102,10 @@ public abstract class ListBox extends Control
 			heightDrawn += _elements.get(nextElement).getHeight();
 			nextElement++;
 		}
-		
-		int scrollPos = (height - _scrollIndicatorHeight - 2) * _firstIndexDisplayed / _elements.size() + getContentTop();
-		GuiRender.drawRect(x + width - _scrollIndicatorWidth - 1, scrollPos, x + width - 1, scrollPos + _scrollIndicatorHeight, -1);
 	}
 	
 	@Override
-	public boolean onMouseClicked(int mouseX, int mouseY, int mouseButton)
+	public boolean onMousePressed(int mouseX, int mouseY, int mouseButton)
 	{
 		int heightChecked = 0;
 		for(int i = _firstIndexDisplayed; i < _elements.size(); i++)

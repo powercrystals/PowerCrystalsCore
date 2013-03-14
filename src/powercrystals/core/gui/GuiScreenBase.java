@@ -89,21 +89,19 @@ public abstract class GuiScreenBase extends GuiContainer
 		int mouseY = height - Mouse.getEventY() * height / mc.displayHeight - 1 - guiTop;
 		int wheelMovement = Mouse.getEventDWheel();
 		
-		if(wheelMovement == 0)
+		if(wheelMovement != 0)
 		{
-			return;
-		}
-		
-		for(int i = _controls.size() - 1; i >= 0; i--)
-		{
-			Control c = _controls.get(i);
-			if(!c.isPointInBounds(mouseX, mouseY) || !c.visible || !c.enabled)
+			for(int i = _controls.size() - 1; i >= 0; i--)
 			{
-				continue;
-			}
-			if(c.onMouseWheel(mouseX, mouseY, wheelMovement))
-			{
-				return;
+				Control c = _controls.get(i);
+				if(!c.isPointInBounds(mouseX, mouseY) || !c.visible || !c.enabled)
+				{
+					continue;
+				}
+				if(c.onMouseWheel(mouseX, mouseY, wheelMovement))
+				{
+					return;
+				}
 			}
 		}
 	}
@@ -121,12 +119,51 @@ public abstract class GuiScreenBase extends GuiContainer
 			{
 				continue;
 			}
-			if(c.onMouseClicked(mouseX, mouseY, mouseButton))
+			if(c.onMousePressed(mouseX, mouseY, mouseButton))
 			{
 				return;
 			}
 		}
+		
+		mouseX += guiLeft;
+		mouseY += guiTop;
 		super.mouseClicked(mouseX, mouseY, mouseButton);
+	}
+	
+	@Override
+	protected void mouseMovedOrUp(int mouseX, int mouseY, int event)
+	{
+		mouseX -= guiLeft;
+		mouseY -= guiTop;
+		
+		if(event == 0 || event == 1)
+		{
+			for(int i = _controls.size() - 1; i >= 0; i--)
+			{
+				Control c = _controls.get(i);
+				if(!c.visible || !c.enabled)
+				{
+					continue;
+				}
+				c.onMouseReleased(mouseX, mouseY);
+			}
+		}
+		else
+		{
+			for(int i = _controls.size() - 1; i >= 0; i--)
+			{
+				Control c = _controls.get(i);
+				if(!c.visible || !c.enabled)
+				{
+					continue;
+				}
+				c.onMouseMoved(mouseX, mouseY);
+			}
+		}
+		
+		mouseX += guiLeft;
+		mouseY += guiTop;
+		super.mouseMovedOrUp(mouseX, mouseY, event);
 	}
 	
 	@Override

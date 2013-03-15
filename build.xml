@@ -5,8 +5,8 @@
 	<property name="build.dir" value="build" />
 	<property name="classes.dir" value="${build.dir}/packaging" />
 	<property name="src.dir" value="src" />
-	<property name="forge.buildnum" value="527" />
-	<property name="forge.version" value="1.4.7-6.6.1.${forge.buildnum}" />
+	<property name="forge.buildnum" value="583" />
+	<property name="forge.version" value="1.5-7.7.0.${forge.buildnum}" />
 	<property name="forge.url" value="http://files.minecraftforge.net/minecraftforge/minecraftforge-src-${forge.version}.zip" />
 	<property name="forge.dir" value="${build.dir}/forge" />
 	<property name="mcp.dir" value="${forge.dir}/mcp" />
@@ -14,7 +14,7 @@
 	<property name="resources.dir" value="resources" />
 
 	<property name="package.meta-inf" value="META-INF" />
-	<property name="build.ver" value="1.4.7" />
+	<property name="build.ver" value="1.5.0" />
 	<!--<property name="files.minecraft.dir" value="jars" />-->
 	<property name="dist.dir" value="${build.dir}/dist" />
 
@@ -50,6 +50,11 @@
 		<unzip src="${download.dir}/BuildCraft-master.zip" dest="${download.dir}"/>
 		<mkdir dir="${mcpsrc.dir}/buildcraft/" />
 		<move file="${download.dir}/BuildCraft-master/common/buildcraft/api" todir="${mcpsrc.dir}/buildcraft/"/>
+
+		<echo message="Deleting extra BC API classes" />
+		<delete dir="${mcpsrc.dir}/buildcraft/api/blueprints/" />
+		<delete dir="${mcpsrc.dir}/buildcraft/api/bptblocks/" />
+		<delete file="${mcpsrc.dir}/buildcraft/api/core/BuildCraftAPI.java" />
 	</target>
 	
 	

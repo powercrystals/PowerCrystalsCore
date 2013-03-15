@@ -23,7 +23,7 @@ public class Util
 		for(BlockPosition bp : new BlockPosition(x, y, z).getAdjacent(false))
 		{
 			int blockId = world.getBlockId(bp.x, bp.y, bp.z);
-			if(blockId == Block.redstoneWire.blockID && Block.blocksList[blockId].isProvidingStrongPower(world, bp.x, bp.y, bp.z, 1))
+			if(blockId == Block.redstoneWire.blockID && Block.blocksList[blockId].isProvidingStrongPower(world, bp.x, bp.y, bp.z, 1) > 0)
 			{
 				return true;
 			}

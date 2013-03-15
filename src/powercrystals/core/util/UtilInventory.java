@@ -9,12 +9,12 @@ import powercrystals.core.position.BlockPosition;
 
 import net.minecraft.block.Block;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.ISidedInventory;
 import buildcraft.api.transport.IPipeEntry;
 
 public class UtilInventory
@@ -76,8 +76,8 @@ public class UtilInventory
 		
 		if(toSide != ForgeDirection.UNKNOWN && inventory instanceof ISidedInventory)
 		{
-			invStart = ((ISidedInventory)inventory).getStartInventorySide(toSide.getOpposite());
-			invEnd = invStart + ((ISidedInventory)inventory).getSizeInventorySide(toSide.getOpposite());
+			invStart = ((ISidedInventory)inventory).func_94127_c(toSide.getOpposite().ordinal());
+			invEnd = invStart + ((ISidedInventory)inventory).func_94128_d(toSide.getOpposite().ordinal());
 		}
 		
 		for(int i = invStart; i < invEnd; i++)

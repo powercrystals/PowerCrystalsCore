@@ -11,7 +11,7 @@ import powercrystals.core.gui.GuiRender;
 public abstract class SliderVertical extends Control
 {
 	private int _value;
-	private int _maxValue;
+	private int _valueMax;
 	
 	private boolean _isDragging;
 	
@@ -21,16 +21,14 @@ public abstract class SliderVertical extends Control
 	protected SliderVertical(GuiContainer containerScreen, int x, int y, int width, int height, int maxValue)
 	{
 		super(containerScreen, x, y, width, height);
-		_maxValue = maxValue;
+		_valueMax = maxValue;
 	}
 	
 	public void setValue(int value)
 	{
-		System.out.println("Setting value to " + value);
-		int oldValue = _value;
-		_value = value;
-		if(_value != oldValue)
+		if(value != _value && value >= 0 && value <= _valueMax)
 		{
+			_value = value;
 			onValueChanged(_value);
 		}
 	}
@@ -48,7 +46,7 @@ public abstract class SliderVertical extends Control
 		int sliderWidth = width;
 		int sliderHeight = 8;
 		int sliderX = x;
-		int sliderY = y + (height - sliderHeight) * _value / _maxValue;
+		int sliderY = y + (height - sliderHeight) * _value / _valueMax;
 		
 		if(enabled && isPointInBounds(mouseX, mouseY))
 		{
@@ -72,7 +70,6 @@ public abstract class SliderVertical extends Control
 	@Override
 	public boolean onMousePressed(int mouseX, int mouseY, int mouseButton)
 	{
-		System.out.println("Starting drag");
 		_isDragging = true;
 		return true;
 	}
@@ -80,7 +77,6 @@ public abstract class SliderVertical extends Control
 	@Override
 	public void onMouseReleased(int mouseX, int mouseY)
 	{
-		System.out.println("Stopping drag");
 		_isDragging = false;
 	}
 	
@@ -89,8 +85,7 @@ public abstract class SliderVertical extends Control
 	{
 		if(_isDragging)
 		{
-			System.out.println("Dragging to " + mouseY);
-			setValue(mouseY - y);
+			setValue(_valueMax * (mouseY - y) / height);
 		}
 	}
 	

@@ -10,7 +10,7 @@ import powercrystals.core.gui.GuiRender;
 public abstract class SliderHorizontal extends Control
 {
 	private int _value;
-	private int _maxValue;
+	private int _valueMax;
 	
 	private boolean _isDragging;
 	
@@ -20,15 +20,14 @@ public abstract class SliderHorizontal extends Control
 	protected SliderHorizontal(GuiContainer containerScreen, int x, int y, int width, int height, int maxValue)
 	{
 		super(containerScreen, x, y, width, height);
-		_maxValue = maxValue;
+		_valueMax = maxValue;
 	}
 	
 	public void setValue(int value)
 	{
-		int oldValue = _value;
-		_value = value;
-		if(_value != oldValue)
+		if(value != _value && value >= 0 && value <= _valueMax)
 		{
+			_value = value;
 			onValueChanged(_value);
 		}
 	}
@@ -45,7 +44,7 @@ public abstract class SliderHorizontal extends Control
 	{
 		int sliderWidth = 8;
 		int sliderHeight = height;
-		int sliderX = x + (width - sliderWidth) * _value / _maxValue;
+		int sliderX = x + (width - sliderWidth) * _value / _valueMax;
 		int sliderY = y;
 		
 		if(enabled && isPointInBounds(mouseX, mouseY))
@@ -85,7 +84,7 @@ public abstract class SliderHorizontal extends Control
 	{
 		if(_isDragging)
 		{
-			setValue(mouseX - x);
+			setValue(_valueMax * (mouseX - x) / width);
 		}
 	}
 	

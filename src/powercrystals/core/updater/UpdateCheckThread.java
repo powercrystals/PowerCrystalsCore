@@ -12,8 +12,7 @@ public class UpdateCheckThread extends Thread
 	private static final String _releaseUrlBaseDefault = "https://raw.github.com/powercrystals/";
 	private static final String _releaseUrlSuffixDefault = "/master/VERSION";
 	
-	private String _releaseUrlBase;
-	private String _releaseUrlSuffix;
+	private String _releaseUrl;
 	private IUpdateableMod _mod;
 	
 	private boolean _checkComplete;
@@ -22,14 +21,17 @@ public class UpdateCheckThread extends Thread
 	
 	public UpdateCheckThread(IUpdateableMod mod)
 	{
-		this(mod, _releaseUrlBaseDefault, _releaseUrlSuffixDefault);
+		this(mod, null);
 	}
 	
-	public UpdateCheckThread(IUpdateableMod mod, String releaseUrlBase, String releaseUrlSuffix)
+	public UpdateCheckThread(IUpdateableMod mod, String releaseUrl)
 	{
 		_mod = mod;
-		_releaseUrlBase = releaseUrlBase;
-		_releaseUrlSuffix = releaseUrlSuffix;
+		if(releaseUrl == null)
+		{
+			releaseUrl = _releaseUrlBaseDefault + mod.getModFolder() + _releaseUrlSuffixDefault;
+		}
+		_releaseUrl = releaseUrl;
 	}
 	
 	@Override
@@ -37,7 +39,7 @@ public class UpdateCheckThread extends Thread
 	{
 		try
 		{
-			URL versionFile = new URL(_releaseUrlBase + _mod.getModFolder() + _releaseUrlSuffix);
+			URL versionFile = new URL(_releaseUrl);
 
 			BufferedReader reader = new BufferedReader(new InputStreamReader(versionFile.openStream()));
 			ModVersion newVer = ModVersion.parse(reader.readLine());

@@ -17,8 +17,13 @@ public class UpdateManager implements IScheduledTickHandler
 	
 	public UpdateManager(IUpdateableMod mod)
 	{
+		this(mod, null);
+	}
+	
+	public UpdateManager(IUpdateableMod mod, String releaseUrl)
+	{
 		_mod = mod;
-		_updateThread = new UpdateCheckThread(mod);
+		_updateThread = new UpdateCheckThread(mod, releaseUrl);
 		if(CoreCore.doUpdateCheck.getBoolean(true))
 		{
 			_updateThread.start();

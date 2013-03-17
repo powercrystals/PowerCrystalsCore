@@ -9,9 +9,6 @@ import cpw.mods.fml.common.FMLLog;
 
 public class UpdateCheckThread extends Thread
 {
-	private static final String _releaseUrlBaseDefault = "https://raw.github.com/powercrystals/";
-	private static final String _releaseUrlSuffixDefault = "/master/VERSION";
-	
 	private String _releaseUrl;
 	private IUpdateableMod _mod;
 	
@@ -29,7 +26,7 @@ public class UpdateCheckThread extends Thread
 		_mod = mod;
 		if(releaseUrl == null)
 		{
-			releaseUrl = _releaseUrlBaseDefault + mod.getModFolder() + _releaseUrlSuffixDefault;
+			releaseUrl = "https://raw.github.com/powercrystals/" + mod.getModId() + "/master/VERSION";
 		}
 		_releaseUrl = releaseUrl;
 	}

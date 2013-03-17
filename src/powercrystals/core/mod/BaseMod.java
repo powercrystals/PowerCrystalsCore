@@ -87,10 +87,4 @@ public abstract class BaseMod implements IUpdateableMod
 			}
 		}
 	}
-
-	@Override
-	public String getModFolder()
-	{
-		return getModId();
-	}
 }

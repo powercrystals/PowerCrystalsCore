@@ -111,12 +111,6 @@ public class CoreCore extends DummyModContainer implements IUpdateableMod
 	}
 
 	@Override
-	public String getModFolder()
-	{
-		return modId;
-	}
-
-	@Override
 	public String getModVersion()
 	{
 		return version;

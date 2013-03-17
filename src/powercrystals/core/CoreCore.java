@@ -57,7 +57,7 @@ public class CoreCore extends DummyModContainer implements IUpdateableMod
 	@Subscribe
 	public void preInit(FMLPreInitializationEvent evt)
 	{
-		loadConfig(evt.getSuggestedConfigurationFile());
+		loadConfig(new File(evt.getModConfigurationDirectory().getAbsolutePath() + "/powercrystals/core/client.cfg"));
 	}
 	
 	@Subscribe

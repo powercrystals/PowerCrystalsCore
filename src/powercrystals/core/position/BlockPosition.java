@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
 public class BlockPosition
@@ -201,6 +202,11 @@ public class BlockPosition
 			a.add(new BlockPosition(x, y - 1, z, ForgeDirection.DOWN));
 		}
 		return a;
+	}
+	
+	public TileEntity getTileEntity(World world)
+	{
+		return world.getBlockTileEntity(x, y, z);
 	}
 	
 	public static TileEntity getAdjacentTileEntity(TileEntity start, ForgeDirection direction)

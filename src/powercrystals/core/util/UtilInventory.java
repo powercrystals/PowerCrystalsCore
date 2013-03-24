@@ -71,25 +71,36 @@ public class UtilInventory
 
 		stackSizeLimit = Math.min(inventory.getInventoryStackLimit(), stack.getMaxStackSize());
 		
-		int invStart = 0;
-		int invEnd = inventory.getSizeInventory();
-		
 		if(toSide != ForgeDirection.UNKNOWN && inventory instanceof ISidedInventory)
 		{
-			invStart = ((ISidedInventory)inventory).func_94127_c(toSide.getOpposite().ordinal());
-			invEnd = invStart + ((ISidedInventory)inventory).func_94128_d(toSide.getOpposite().ordinal());
-		}
-		
-		for(int i = invStart; i < invEnd; i++)
-		{
-			ItemStack targetStack = inventory.getStackInSlot(i);
-			if(targetStack == null)
+			ISidedInventory sidedinv = (ISidedInventory)inventory;
+			int[] sideSlots = sidedinv.getSizeInventorySide(toSide.getOpposite().ordinal());
+			for(int i : sideSlots)
 			{
-				return i;
+				ItemStack targetStack = inventory.getStackInSlot(i);
+				if(targetStack == null)
+				{
+					return i;
+				}
+				if(targetStack.itemID == stack.itemID && targetStack.getItemDamage() == stack.getItemDamage() && targetStack.stackSize < stackSizeLimit)
+				{
+					return i;
+				}
 			}
-			if(targetStack.itemID == stack.itemID && targetStack.getItemDamage() == stack.getItemDamage() && targetStack.stackSize < stackSizeLimit)
+		}
+		else
+		{
+			for(int i = 0; i < inventory.getSizeInventory(); i++)
 			{
-				return i;
+				ItemStack targetStack = inventory.getStackInSlot(i);
+				if(targetStack == null)
+				{
+					return i;
+				}
+				if(targetStack.itemID == stack.itemID && targetStack.getItemDamage() == stack.getItemDamage() && targetStack.stackSize < stackSizeLimit)
+				{
+					return i;
+				}
 			}
 		}
 		

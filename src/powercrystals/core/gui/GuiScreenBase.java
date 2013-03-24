@@ -34,7 +34,7 @@ public abstract class GuiScreenBase extends GuiContainer
 		mouseX -= guiLeft;
 		mouseY -= guiTop;
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.func_98187_b(_backgroundTexture);
+		mc.renderEngine.getTexture(_backgroundTexture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		GL11.glPushMatrix();

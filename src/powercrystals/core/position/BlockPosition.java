@@ -153,6 +153,7 @@ public class BlockPosition
 		nbttagcompound.setDouble("k", z);
 	}
 	
+	@Override
 	public String toString ()
 	{
 		if(orientation == null)

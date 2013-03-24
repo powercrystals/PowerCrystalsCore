@@ -9,9 +9,7 @@ import powercrystals.core.position.BlockPosition;
 
 import net.minecraft.block.Block;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.InventoryLargeChest;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -19,94 +17,6 @@ import buildcraft.api.transport.IPipeEntry;
 
 public class UtilInventory
 {
-	public static int addToInventory(IInventory targetInventory, ForgeDirection toSide, ItemStack stackToAdd)
-	{
-		int amountLeftToAdd = stackToAdd.stackSize;
-		int stackSizeLimit;
-
-		stackSizeLimit = Math.min(targetInventory.getInventoryStackLimit(), stackToAdd.getMaxStackSize());
-		
-		int slotIndex;
-		
-		while(amountLeftToAdd > 0)
-		{
-			slotIndex = getAvailableSlot(targetInventory, toSide, stackToAdd);
-			if(slotIndex < 0)
-			{
-				break;
-			}
-			ItemStack targetStack = targetInventory.getStackInSlot(slotIndex);
-			if(targetStack == null)
-			{
-				if(stackToAdd.stackSize <= stackSizeLimit)
-				{
-					ItemStack s = stackToAdd.copy();
-					s.stackSize = amountLeftToAdd;
-					targetInventory.setInventorySlotContents(slotIndex, s);
-					amountLeftToAdd = 0;
-					break;
-				}
-				else
-				{
-					ItemStack s = stackToAdd.copy();
-					s.stackSize = stackSizeLimit;
-					targetInventory.setInventorySlotContents(slotIndex, stackToAdd.copy());
-					amountLeftToAdd -= s.stackSize;
-				}
-			}
-			else
-			{
-				int amountToAdd = Math.min(amountLeftToAdd, stackSizeLimit - targetStack.stackSize);
-				targetStack.stackSize += amountToAdd;
-				amountLeftToAdd -= amountToAdd;
-			}
-		}
-		
-		return amountLeftToAdd;
-	}
-	
-	private static int getAvailableSlot(IInventory inventory, ForgeDirection toSide, ItemStack stack)
-	{
-		int stackSizeLimit;
-
-		stackSizeLimit = Math.min(inventory.getInventoryStackLimit(), stack.getMaxStackSize());
-		
-		if(toSide != ForgeDirection.UNKNOWN && inventory instanceof ISidedInventory)
-		{
-			ISidedInventory sidedinv = (ISidedInventory)inventory;
-			int[] sideSlots = sidedinv.getSizeInventorySide(toSide.getOpposite().ordinal());
-			for(int i : sideSlots)
-			{
-				ItemStack targetStack = inventory.getStackInSlot(i);
-				if(targetStack == null)
-				{
-					return i;
-				}
-				if(targetStack.itemID == stack.itemID && targetStack.getItemDamage() == stack.getItemDamage() && targetStack.stackSize < stackSizeLimit)
-				{
-					return i;
-				}
-			}
-		}
-		else
-		{
-			for(int i = 0; i < inventory.getSizeInventory(); i++)
-			{
-				ItemStack targetStack = inventory.getStackInSlot(i);
-				if(targetStack == null)
-				{
-					return i;
-				}
-				if(targetStack.itemID == stack.itemID && targetStack.getItemDamage() == stack.getItemDamage() && targetStack.stackSize < stackSizeLimit)
-				{
-					return i;
-				}
-			}
-		}
-		
-		return -1;
-	}
-
 	public static List<ForgeDirection> findPipes(World world, int x, int y, int z)
 	{
 		List<ForgeDirection> pipes = new LinkedList<ForgeDirection>();
@@ -161,20 +71,5 @@ public class UtilInventory
 			}
 		}
 		return ((IInventory)te);
-	}
-
-
-	
-	public static int findFirstStack(IInventory inv, int itemId, int itemDamage)
-	{
-		for(int i = 0; i < inv.getSizeInventory(); i++)
-		{
-			ItemStack s = inv.getStackInSlot(i);
-			if(s != null && s.itemID == itemId && s.getItemDamage() == itemDamage)
-			{
-				return i;
-			}
-		}
-		return -1;
 	}
 }

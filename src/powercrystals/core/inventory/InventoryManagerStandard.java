@@ -60,9 +60,13 @@ public class InventoryManagerStandard implements IInventoryManager
 				if(add.stackSize > 0 && canAddItem(add, i))
 				{
 					s.stackSize += add.stackSize;
-					_inv.setInventorySlotContents(i, add);
+					_inv.setInventorySlotContents(i, s);
 					quantitytoadd -= add.stackSize;
 				}
+			}
+			if(quantitytoadd == 0)
+			{
+				break;
 			}
 		}
 		

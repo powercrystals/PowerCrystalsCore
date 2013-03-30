@@ -3,7 +3,9 @@ package powercrystals.core;
 import java.util.Map;
 
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
+import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
 
+@MCVersion(value = "1.5.1")
 public class CoreLoader implements IFMLLoadingPlugin
 {
 	@Override

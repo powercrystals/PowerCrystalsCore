@@ -84,6 +84,10 @@ public class InventoryManagerStandard implements IInventoryManager
 	@Override
 	public ItemStack removeItem(int maxRemove)
 	{
+		if(maxRemove <= 0)
+		{
+			return null;
+		}
 		for(int i : getSlots())
 		{
 			ItemStack s = getSlotContents(i);
@@ -110,6 +114,10 @@ public class InventoryManagerStandard implements IInventoryManager
 	@Override
 	public ItemStack removeItem(int maxRemove, ItemStack type)
 	{
+		if(maxRemove <= 0)
+		{
+			return null;
+		}
 		for(int i : getSlots())
 		{
 			ItemStack s = getSlotContents(i);

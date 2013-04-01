@@ -7,9 +7,14 @@ import net.minecraftforge.common.ForgeDirection;
 
 public class InventoryManager
 {
+	@SuppressWarnings("deprecation")
 	public static IInventoryManager create(IInventory inventory, ForgeDirection targetSide)
 	{
 		if(inventory instanceof ISidedInventory)
+		{
+			return new InventoryManagerSided((ISidedInventory)inventory, targetSide);
+		}
+		else if(inventory instanceof net.minecraftforge.common.ISidedInventory)
 		{
 			return new InventoryManagerSided((ISidedInventory)inventory, targetSide);
 		}

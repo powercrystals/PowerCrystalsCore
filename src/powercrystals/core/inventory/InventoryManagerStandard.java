@@ -40,11 +40,12 @@ public class InventoryManagerStandard implements IInventoryManager
 		ItemStack remaining = stack.copy();
 		for(int i : getSlots())
 		{
+			int maxStackSize = Math.min(_inv.getInventoryStackLimit(), stack.getMaxStackSize());
 			ItemStack s = getSlotContents(i);
 			if(s == null)
 			{
 				ItemStack add = stack.copy();
-				add.stackSize = Math.min(quantitytoadd, _inv.getInventoryStackLimit());
+				add.stackSize = Math.min(quantitytoadd, maxStackSize);
 				
 				if(canAddItem(add, i))
 				{
@@ -55,7 +56,7 @@ public class InventoryManagerStandard implements IInventoryManager
 			else if(InventoryManager.stacksEqual(s, stack))
 			{
 				ItemStack add = stack.copy();
-				add.stackSize = Math.min(quantitytoadd, _inv.getInventoryStackLimit() - s.stackSize);
+				add.stackSize = Math.min(quantitytoadd, maxStackSize - s.stackSize);
 				
 				if(add.stackSize > 0 && canAddItem(add, i))
 				{

@@ -40,7 +40,7 @@ public abstract class BaseMod implements IUpdateableMod
 	
 	protected void extractLang(String[] languages)
 	{
-		String langResourceBase = "/powercrystals/" + getModId().toLowerCase() + "/lang/";
+		String langResourceBase = "/" + getConfigBaseFolder() + "/" + getModId().toLowerCase() + "/lang/";
 		for(String lang : languages)
 		{
 			InputStream is = this.getClass().getResourceAsStream(langResourceBase + lang + ".lang");

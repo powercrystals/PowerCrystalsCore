@@ -20,7 +20,7 @@ public abstract class BaseMod implements IUpdateableMod
 	
 	protected void setConfigFolderBase(File folder)
 	{
-		_configFolder = new File(folder.getAbsolutePath() + "/powercrystals/" + getModId().toLowerCase() + "/");
+		_configFolder = new File(folder.getAbsolutePath() + "/" + getConfigBaseFolder() + "/" + getModId().toLowerCase() + "/");
 	}
 	
 	protected File getClientConfig()
@@ -31,6 +31,11 @@ public abstract class BaseMod implements IUpdateableMod
 	protected File getCommonConfig()
 	{
 		return new File(_configFolder.getAbsolutePath() + "/common.cfg");
+	}
+	
+	protected String getConfigBaseFolder()
+	{
+		return "powercrystals";
 	}
 	
 	protected void extractLang(String[] languages)

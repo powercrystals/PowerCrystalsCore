@@ -165,7 +165,6 @@ public class InventoryManagerStandard implements IInventoryManager
 	@Override
 	public int findItem(ItemStack type)
 	{
-		int quantity = 0;
 		for(int i : getSlots())
 		{
 			ItemStack s = _inv.getStackInSlot(i);
@@ -174,7 +173,7 @@ public class InventoryManagerStandard implements IInventoryManager
 				return i;
 			}
 		}
-		return quantity;
+		return -1;
 	}
 
 	@Override

@@ -98,7 +98,7 @@ public class InventoryManagerStandard implements IInventoryManager
 				s.stackSize -= toRemove;
 				ItemStack removed = s.copy();
 				removed.stackSize = toRemove;
-				if(removed.stackSize > 0)
+				if(s.stackSize > 0)
 				{
 					_inv.setInventorySlotContents(i, s);
 				}
@@ -128,7 +128,7 @@ public class InventoryManagerStandard implements IInventoryManager
 				s.stackSize -= toRemove;
 				ItemStack removed = s.copy();
 				removed.stackSize = toRemove;
-				if(removed.stackSize > 0)
+				if(s.stackSize > 0)
 				{
 					_inv.setInventorySlotContents(i, s);
 				}

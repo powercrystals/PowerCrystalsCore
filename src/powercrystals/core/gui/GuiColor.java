@@ -9,6 +9,11 @@ public class GuiColor
 		_color = color;
 	}
 	
+	public GuiColor(int r, int g, int b)
+	{
+		this(r, g, b, 255);
+	}
+	
 	public GuiColor(int r, int g, int b, int a)
 	{
 		_color = (b & 0xFF) | (g & 0xFF) << 8 | (r & 0xFF) << 16 | (a & 0xFF) << 24;

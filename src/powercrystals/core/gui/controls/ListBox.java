@@ -118,6 +118,7 @@ public abstract class ListBox extends Control
 			if(getContentTop() + heightChecked <= mouseY && getContentTop() + heightChecked + elementHeight >= mouseY)
 			{
 				setSelectedIndex(i);
+				onElementClicked(_elements.get(i));
 				break;
 			}
 			heightChecked += elementHeight;
@@ -198,6 +199,16 @@ public abstract class ListBox extends Control
 		}
 	}
 	
+	public IListBoxElement getElement(int index)
+	{
+		return _elements.get(index);
+	}
+	
+	public int getElementCount()
+	{
+		return _elements.size();
+	}
+	
 	public void scrollTo(int index)
 	{
 		if(index >= 0 && index < _elements.size())
@@ -205,6 +216,8 @@ public abstract class ListBox extends Control
 			_firstIndexDisplayed = index;
 		}
 	}
+	
+	protected void onElementClicked(IListBoxElement element) { };
 	
 	protected abstract void onSelectionChanged(int newIndex, IListBoxElement newElement);
 }

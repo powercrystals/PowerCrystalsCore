@@ -178,8 +178,7 @@ public abstract class BlockFluidRoot extends Block
     @Override
     public boolean canCollideCheck(int meta, boolean fullHit)
     {
-
-        return fullHit && meta == quantaPerBlock;
+        return fullHit && meta == quantaPerBlock - 1;
     }
 
     @Override

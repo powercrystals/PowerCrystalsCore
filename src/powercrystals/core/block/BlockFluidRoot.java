@@ -320,7 +320,7 @@ public abstract class BlockFluidRoot extends Block
 
     public final int getQuantaValue(IBlockAccess world, int x, int y, int z)
     {
-        if (world.isAirBlock(x, y, z))
+        if (world.getBlockId(x, y, z) == 0)
         {
             return 0;
         }

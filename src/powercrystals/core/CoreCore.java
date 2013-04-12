@@ -27,7 +27,7 @@ import cpw.mods.fml.relauncher.Side;
 
 public class CoreCore extends DummyModContainer implements IUpdateableMod
 {
-	public static final String version = "1.5.1R1.1.1B1";
+	public static final String version = "1.5.1R1.1.1";
 	public static final String modId = "PowerCrystalsCore";
 	public static final String modName = "PowerCrystals Core";
 	

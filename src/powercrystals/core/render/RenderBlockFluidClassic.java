@@ -150,12 +150,12 @@ public class RenderBlockFluidClassic implements ISimpleBlockRenderingHandler
 			{
 				rendered = true;
 
-				Icon icon = block.getBlockTextureFromSideAndMetadata(1, bMeta);
+				Icon icon = block.getIcon(1, bMeta);
 				float flowDir = (float) BlockFluidRoot.getFlowDirection(world, x, y, z);
 
 				if(flowDir > -999.0F)
 				{
-					icon = block.getBlockTextureFromSideAndMetadata(2, bMeta);
+					icon = block.getIcon(2, bMeta);
 				}
 
 				d2 -= d6;
@@ -226,12 +226,12 @@ public class RenderBlockFluidClassic implements ISimpleBlockRenderingHandler
 				if(!rises)
 				{
 					tessellator.setColorOpaque_F(f3 * f10, f3 * f10, f3 * f10);
-					renderer.renderBottomFace(block, x, y + d6, z, block.getBlockTextureFromSideAndMetadata(0, bMeta));
+					renderer.renderBottomFace(block, x, y + d6, z, block.getIcon(0, bMeta));
 				}
 				else
 				{
 					tessellator.setColorOpaque_F(f4 * f10, f4 * f10, f4 * f10);
-					renderer.renderTopFace(block, x, y + d6, z, block.getBlockTextureFromSideAndMetadata(1, bMeta));
+					renderer.renderTopFace(block, x, y + d6, z, block.getIcon(1, bMeta));
 				}
 			}
 
@@ -256,7 +256,7 @@ public class RenderBlockFluidClassic implements ISimpleBlockRenderingHandler
 					break;
 				}
 
-				Icon icon1 = block.getBlockTextureFromSideAndMetadata(side + 2, bMeta);
+				Icon icon1 = block.getIcon(side + 2, bMeta);
 
 				if(renderer.renderAllFaces || renderSides[side])
 				{

@@ -22,7 +22,7 @@ public class BlockFluidRoot extends Block
 	static
 	{
 		displacementIds.put(Block.doorWood.blockID, false);
-		displacementIds.put(Block.doorSteel.blockID, false);
+		displacementIds.put(Block.doorIron.blockID, false);
 		displacementIds.put(Block.signPost.blockID, false);
 		displacementIds.put(Block.signWall.blockID, false);
 		displacementIds.put(Block.reed.blockID, false);

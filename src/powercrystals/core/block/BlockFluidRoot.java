@@ -1,4 +1,3 @@
-
 package powercrystals.core.block;
 
 import java.util.HashMap;
@@ -15,440 +14,439 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class BlockFluidRoot extends Block
+public class BlockFluidRoot extends Block
 {
 
-    public final static Map<Integer, Boolean> displacementIds = new HashMap<Integer, Boolean>();
+	public final static Map<Integer, Boolean> displacementIds = new HashMap<Integer, Boolean>();
 
-    static
-    {
-        displacementIds.put(Block.doorWood.blockID, false);
-        displacementIds.put(Block.doorSteel.blockID, false);
-        displacementIds.put(Block.signPost.blockID, false);
-        displacementIds.put(Block.signWall.blockID, false);
-        displacementIds.put(Block.reed.blockID, false);
-    }
+	static
+	{
+		displacementIds.put(Block.doorWood.blockID, false);
+		displacementIds.put(Block.doorSteel.blockID, false);
+		displacementIds.put(Block.signPost.blockID, false);
+		displacementIds.put(Block.signWall.blockID, false);
+		displacementIds.put(Block.reed.blockID, false);
+	}
 
-    public int quantaPerBlock = 8;
-    public float quantaPerBlockFloat = 8F;
-    public int density = 1;
-    public int densityDir = -1;
+	public int quantaPerBlock = 8;
+	public float quantaPerBlockFloat = 8F;
+	public int density = 1;
+	public int densityDir = -1;
 
-    public int tickRate = 20;
-    public int renderPass = 0;
-    public int maxScaledLight = 0;
+	public int tickRate = 20;
+	public int renderPass = 1;
+	public int maxScaledLight = 0;
 
-    public BlockFluidRoot(int id, Material material)
-    {
+	public BlockFluidRoot(int id, Material material)
+	{
+		super(id, material);
+		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		this.setTickRandomly(true);
+		this.disableStats();
+	}
 
-        super(id, material);
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-        this.setTickRandomly(false);
-        this.disableStats();
-    }
+	public BlockFluidRoot setQuantaPerBlock(int quantaPerBlock)
+	{
+		if(quantaPerBlock > 16 || quantaPerBlock < 1)
+		{
+			quantaPerBlock = 8;
+		}
 
-    public BlockFluidRoot setQuantaPerBlock(int quantaPerBlock)
-    {
-        if (quantaPerBlock > 16 || quantaPerBlock < 1)
-        {
-            quantaPerBlock = 16;
-        }
+		this.quantaPerBlock = quantaPerBlock;
+		this.quantaPerBlockFloat = quantaPerBlock;
+		return this;
+	}
 
-        this.quantaPerBlock = quantaPerBlock;
-        this.quantaPerBlockFloat = quantaPerBlock;
-        return this;
-    }
+	public BlockFluidRoot setDensity(int density)
+	{
+		if(density == 0)
+		{
+			density = 1;
+		}
+		this.density = density;
+		this.densityDir = density > 0 ? -1 : 1;
+		return this;
+	}
 
-    public BlockFluidRoot setDensity(int density)
-    {
-        if (density == 0)
-        {
-            density = 1;
-        }
-        
-        this.density = density;
-        this.densityDir = density > 0 ? -1 : 1;
-        return this;
-    }
+	public BlockFluidRoot setTickRate(int tickRate)
+	{
+		if(tickRate <= 0)
+		{
+			tickRate = 20;
+		}
+		this.tickRate = tickRate;
+		return this;
+	}
 
-    public BlockFluidRoot setTickRate(int tickRate)
-    {
-        if (tickRate <= 0)
-        {
-            tickRate = 1;
-        }
-        
-        this.tickRate = tickRate;
-        return this;
-    }
+	public BlockFluidRoot setRenderPass(int renderPass)
+	{
+		this.renderPass = renderPass;
+		return this;
+	}
 
-    public BlockFluidRoot setRenderPass(int renderPass)
-    {
-        this.renderPass = renderPass;
-        return this;
-    }
+	public BlockFluidRoot setMaxScaledLight(int maxScaledLight)
+	{
+		this.maxScaledLight = maxScaledLight;
+		return this;
+	}
 
-    public BlockFluidRoot setMaxScaledLight(int maxScaledLight)
-    {
-        this.maxScaledLight = maxScaledLight;
-        return this;
-    }
+	/**
+	 * Returns true if the block at (x, y, z) is displaceable. Does not displace
+	 * the block.
+	 */
+	public boolean canDisplace(IBlockAccess world, int x, int y, int z)
+	{
+		int bId = world.getBlockId(x, y, z);
+		if(bId == 0)
+		{
+			return true;
+		}
+		if(bId == blockID)
+		{
+			return false;
+		}
+		if(displacementIds.containsKey(bId))
+		{
+			return displacementIds.get(bId);
+		}
+		Material material = Block.blocksList[bId].blockMaterial;
+		if(material.blocksMovement() || material == Material.portal)
+		{
+			return false;
+		}
+		return true;
+	}
 
-    /**
-     * Returns true if the block at (x, y, z) is displaceable. Does not displace the block.
-     */
-    public boolean canDisplace(IBlockAccess world, int x, int y, int z)
-    {
-        int bId = world.getBlockId(x, y, z);
-        if (bId == 0)
-        {
-            return true;
-        }
-        if (bId == blockID)
-        {
-            return false;
-        }
-        if (displacementIds.containsKey(bId))
-        {
-            return displacementIds.get(bId);
-        }
-        Material material = Block.blocksList[bId].blockMaterial;
-        if (material.blocksMovement() || material == Material.portal)
-        {
-            return false;
-        }
-        return true;
-    }
+	/**
+	 * Attempt to displace the block at (x, y, z), return true if it was
+	 * displaced.
+	 */
+	public boolean displaceIfPossible(World world, int x, int y, int z)
+	{
+		int bId = world.getBlockId(x, y, z);
+		if(bId == 0)
+		{
+			return true;
+		}
+		if(bId == blockID)
+		{
+			return false;
+		}
+		if(displacementIds.containsKey(bId))
+		{
+			if(displacementIds.get(bId))
+			{
+				Block.blocksList[bId].dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+				return true;
+			}
+			return false;
+		}
+		Material material = Block.blocksList[bId].blockMaterial;
+		if(material.blocksMovement() || material == Material.portal)
+		{
+			return false;
+		}
+		Block.blocksList[bId].dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+		return true;
+	}
 
-    /**
-     * Attempt to displace the block at (x, y, z), return true if it was displaced.
-     */
-    public boolean displaceIfPossible(World world, int x, int y, int z)
-    {
+	/* BLOCK FUNCTIONS */
+	@Override
+	public void onBlockAdded(World world, int x, int y, int z)
+	{
+		world.scheduleBlockUpdate(x, y, z, blockID, tickRate);
+	}
 
-        int bId = world.getBlockId(x, y, z);
-        if (bId == 0)
-        {
-            return true;
-        }
-        if (bId == blockID)
-        {
-            return false;
-        }
-        if (displacementIds.containsKey(bId))
-        {
-            if (displacementIds.get(bId))
-            {
-                Block.blocksList[bId].dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-                return true;
-            }
-            return false;
-        }
-        Material material = Block.blocksList[bId].blockMaterial;
-        if (material.blocksMovement() || material == Material.portal)
-        {
-            return false;
-        }
-        Block.blocksList[bId].dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-        return true;
-    }
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, int blockId)
+	{
+		world.scheduleBlockUpdate(x, y, z, blockID, tickRate);
+	}
 
-    /* BLOCK FUNCTIONS */
-    @Override
-    public void onBlockAdded(World world, int x, int y, int z)
-    {
+	// Used to prevent updates on chunk generation
+	@Override
+	public boolean func_82506_l()
+	{
+		return false;
+	}
 
-        world.scheduleBlockUpdate(x, y, z, blockID, tickRate);
-    }
+	@Override
+	public boolean canCollideCheck(int meta, boolean fullHit)
+	{
+		return fullHit && meta == quantaPerBlock - 1;
+	}
 
-    @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, int blockId)
-    {
+	@Override
+	public boolean getBlocksMovement(IBlockAccess world, int x, int y, int z)
+	{
+		return false;
+	}
 
-        world.scheduleBlockUpdate(x, y, z, blockID, tickRate);
-    }
+	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
+	{
+		return null;
+	}
 
-    // Used to prevent updates on chunk generation
-    @Override
-    public boolean func_82506_l()
-    {
-        return false;
-    }
+	@Override
+	public int idDropped(int par1, Random par2Random, int par3)
+	{
+		return 0;
+	}
 
-    @Override
-    public boolean canCollideCheck(int meta, boolean fullHit)
-    {
-        return fullHit && meta == quantaPerBlock - 1;
-    }
+	@Override
+	public int quantityDropped(Random par1Random)
+	{
+		return 0;
+	}
 
-    @Override
-    public boolean getBlocksMovement(IBlockAccess world, int x, int y, int z)
-    {
+	@Override
+	public int tickRate(World world)
+	{
+		return tickRate;
+	}
 
-        return false;
-    }
+	@Override
+	public void velocityToAddToEntity(World world, int x, int y, int z, Entity entity, Vec3 vec)
+	{
+		if(densityDir > 0)
+		{
+			return;
+		}
+		Vec3 vec_flow = this.getFlowVector(world, x, y, z);
+		vec.xCoord += vec_flow.xCoord * (quantaPerBlock * 4);
+		vec.yCoord += vec_flow.yCoord * (quantaPerBlock * 4);
+		vec.zCoord += vec_flow.zCoord * (quantaPerBlock * 4);
+	}
 
-    @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-    {
+	/* VISUAL FUNCTIONS */
+	@Override
+	public int getLightValue(IBlockAccess world, int x, int y, int z)
+	{
+		if(maxScaledLight == 0)
+		{
+			return super.getLightValue(world, x, y, z);
+		}
+		int data = world.getBlockMetadata(x, y, z);
+		return (int) (data / quantaPerBlockFloat * maxScaledLight);
+	}
 
-        return null;
-    }
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
 
-    @Override
-    public int idDropped(int par1, Random par2Random, int par3)
-    {
+	@Override
+	public boolean renderAsNormalBlock()
+	{
+		return false;
+	}
 
-        return 0;
-    }
+	@SideOnly(Side.CLIENT)
+	@Override
+	public float getBlockBrightness(IBlockAccess world, int x, int y, int z)
+	{
+		float lightThis = world.getLightBrightness(x, y, z);
+		float lightUp = world.getLightBrightness(x, y + 1, z);
 
-    @Override
-    public int quantityDropped(Random par1Random)
-    {
+		return lightThis > lightUp ? lightThis : lightUp;
+	}
 
-        return 0;
-    }
+	@SideOnly(Side.CLIENT)
+	@Override
+	public int getMixedBrightnessForBlock(IBlockAccess world, int x, int y, int z)
+	{
+		int lightThis = world.getLightBrightnessForSkyBlocks(x, y, z, 0);
+		int lightUp = world.getLightBrightnessForSkyBlocks(x, y + 1, z, 0);
+		int lightThisBase = lightThis & 255;
+		int lightUpBase = lightUp & 255;
+		int lightThisExt = lightThis >> 16 & 255;
+		int lightUpExt = lightUp >> 16 & 255;
 
-    @Override
-    public int tickRate(World world)
-    {
-        return tickRate;
-    }
+		return (lightThisBase > lightUpBase ? lightThisBase : lightUpBase) | (lightThisExt > lightUpExt ? lightThisExt : lightUpExt) << 16;
+	}
 
-    @Override
-    public void velocityToAddToEntity(World world, int x, int y, int z, Entity entity, Vec3 vec)
-    {
-        if (densityDir > 0)
-        {
-            return;
-        }
-        Vec3 vec_flow = this.getFlowVector(world, x, y, z);
-        vec.xCoord += vec_flow.xCoord * (quantaPerBlock * 4);
-        vec.yCoord += vec_flow.yCoord * (quantaPerBlock * 4);
-        vec.zCoord += vec_flow.zCoord * (quantaPerBlock * 4);
-    }
+	@SideOnly(Side.CLIENT)
+	@Override
+	public int getRenderBlockPass()
+	{
+		return renderPass;
+	}
 
-    /* VISUAL FUNCTIONS */
-    @Override
-    public int getLightValue(IBlockAccess world, int x, int y, int z)
-    {
-        if (maxScaledLight == 0)
-        {
-            return super.getLightValue(world, x, y, z);
-        }
-        int data = world.getBlockMetadata(x, y, z);
-        return (int) (data / quantaPerBlockFloat * maxScaledLight);
-    }
+	@SideOnly(Side.CLIENT)
+	@Override
+	public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
+	{
+		if(world.getBlockId(x, y, z) != blockID)
+		{
+			return !world.isBlockOpaqueCube(x, y, z);
+		}
+		Material mat = world.getBlockMaterial(x, y, z);
+		return mat == this.blockMaterial ? false : super.shouldSideBeRendered(world, x, y, z, side);
+	}
 
-    @Override
-    public boolean isOpaqueCube()
-    {
-        return false;
-    }
+	/* FLUID FUNCTIONS */
+	public static final int getDensity(IBlockAccess world, int x, int y, int z)
+	{
 
-    @Override
-    public boolean renderAsNormalBlock()
-    {
-        return false;
-    }
+		Block block = Block.blocksList[world.getBlockId(x, y, z)];
+		if(!(block instanceof BlockFluidRoot))
+		{
+			return Integer.MAX_VALUE;
+		}
+		return ((BlockFluidRoot) block).density;
+	}
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public float getBlockBrightness(IBlockAccess world, int x, int y, int z)
-    {
-        float lightThis = world.getLightBrightness(x, y, z);
-        float lightUp = world.getLightBrightness(x, y + 1, z);
+	@SideOnly(Side.CLIENT)
+	public static double getFlowDirection(IBlockAccess world, int x, int y, int z)
+	{
 
-        return lightThis > lightUp ? lightThis : lightUp;
-    }
+		Block block = Block.blocksList[world.getBlockId(x, y, z)];
+		if(!(Block.blocksList[world.getBlockId(x, y, z)] instanceof BlockFluidRoot))
+		{
+			return -1000.0;
+		}
+		Vec3 vec = ((BlockFluidRoot) block).getFlowVector(world, x, y, z);
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public int getMixedBrightnessForBlock(IBlockAccess world, int x, int y, int z)
-    {
-        int lightThis = world.getLightBrightnessForSkyBlocks(x, y, z, 0);
-        int lightUp = world.getLightBrightnessForSkyBlocks(x, y + 1, z, 0);
-        int lightThisBase = lightThis & 255;
-        int lightUpBase = lightUp & 255;
-        int lightThisExt = lightThis >> 16 & 255;
-        int lightUpExt = lightUp >> 16 & 255;
+		return vec.xCoord == 0.0D && vec.zCoord == 0.0D ? -1000.0D : Math.atan2(vec.zCoord, vec.xCoord) - Math.PI / 2D;
+	}
 
-        return (lightThisBase > lightUpBase ? lightThisBase : lightUpBase) | (lightThisExt > lightUpExt ? lightThisExt : lightUpExt) << 16;
-    }
+	public final int getQuantaValue(IBlockAccess world, int x, int y, int z)
+	{
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public int getRenderBlockPass()
-    {
-        return renderPass;
-    }
+		if(world.getBlockId(x, y, z) == 0)
+		{
+			return 0;
+		}
+		if(world.getBlockId(x, y, z) != blockID)
+		{
+			return -1;
+		}
+		int quantaRemaining = world.getBlockMetadata(x, y, z) + 1;
+		return quantaRemaining;
+	}
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
-    {
-        if (world.getBlockId(x, y, z) != blockID)
-        {
-            return !world.isBlockOpaqueCube(x, y, z);
-        }
-        Material mat = world.getBlockMaterial(x, y, z);
-        return mat == this.blockMaterial ? false : super.shouldSideBeRendered(world, x, y, z, side);
-    }
+	public final int getQuantaValueBelow(IBlockAccess world, int x, int y, int z, int belowThis)
+	{
 
-    /* FLUID FUNCTIONS */
-    public static final int getDensity(IBlockAccess world, int x, int y, int z)
-    {
-        Block block = Block.blocksList[world.getBlockId(x, y, z)];
-        if (!(block instanceof BlockFluidRoot)) {
-            return Integer.MAX_VALUE;
-        }
-        return ((BlockFluidRoot) block).density;
-    }
+		int quantaRemaining = getQuantaValue(world, x, y, z);
+		if(quantaRemaining >= belowThis)
+		{
+			return -1;
+		}
+		return quantaRemaining;
+	}
 
-    @SideOnly(Side.CLIENT)
-    public static double getFlowDirection(IBlockAccess world, int x, int y, int z)
-    {
-        Block block = Block.blocksList[world.getBlockId(x, y, z)];
-        if (!(Block.blocksList[world.getBlockId(x, y, z)] instanceof BlockFluidRoot))
-        {
-            return -1000.0;
-        }
-        Vec3 vec = ((BlockFluidRoot) block).getFlowVector(world, x, y, z);
+	public final int getQuantaValueAbove(IBlockAccess world, int x, int y, int z, int aboveThis)
+	{
 
-        return vec.xCoord == 0.0D && vec.zCoord == 0.0D ? -1000.0D : Math.atan2(vec.zCoord, vec.xCoord) - Math.PI / 2D;
-    }
+		int quantaRemaining = getQuantaValue(world, x, y, z);
+		if(quantaRemaining <= aboveThis)
+		{
+			return -1;
+		}
+		return quantaRemaining;
+	}
 
-    public final int getQuantaValue(IBlockAccess world, int x, int y, int z)
-    {
-        if (world.getBlockId(x, y, z) == 0)
-        {
-            return 0;
-        }
-        if (world.getBlockId(x, y, z) != blockID)
-        {
-            return -1;
-        }
-        int quantaRemaining = world.getBlockMetadata(x, y, z) + 1;
-        return quantaRemaining;
-    }
+	public final float getQuantaPercentage(IBlockAccess world, int x, int y, int z)
+	{
 
-    public final int getQuantaValueBelow(IBlockAccess world, int x, int y, int z, int belowThis)
-    {
-        int quantaRemaining = getQuantaValue(world, x, y, z);
-        if (quantaRemaining >= belowThis)
-        {
-            return -1;
-        }
-        return quantaRemaining;
-    }
+		int quantaRemaining = getQuantaValue(world, x, y, z);
+		return quantaRemaining / quantaPerBlockFloat;
+	}
 
-    public final int getQuantaValueAbove(IBlockAccess world, int x, int y, int z, int aboveThis)
-    {
-        int quantaRemaining = getQuantaValue(world, x, y, z);
-        if (quantaRemaining <= aboveThis)
-        {
-            return -1;
-        }
-        return quantaRemaining;
-    }
+	public Vec3 getFlowVector(IBlockAccess world, int x, int y, int z)
+	{
 
-    public final float getQuantaPercentage(IBlockAccess world, int x, int y, int z)
-    {
-        int quantaRemaining = getQuantaValue(world, x, y, z);
-        return quantaRemaining / quantaPerBlockFloat;
-    }
+		Vec3 vec = world.getWorldVec3Pool().getVecFromPool(0.0D, 0.0D, 0.0D);
+		int decay = quantaPerBlock - getQuantaValue(world, x, y, z);
 
-    public Vec3 getFlowVector(IBlockAccess world, int x, int y, int z)
-    {
-        Vec3 vec = world.getWorldVec3Pool().getVecFromPool(0.0D, 0.0D, 0.0D);
-        int decay = quantaPerBlock - getQuantaValue(world, x, y, z);
+		for(int side = 0; side < 4; ++side)
+		{
+			int x2 = x;
+			int z2 = z;
 
-        for (int side = 0; side < 4; ++side)
-        {
-            int x2 = x;
-            int z2 = z;
+			switch(side)
+			{
+			case 0:
+				--x2;
+				break;
+			case 1:
+				--z2;
+				break;
+			case 2:
+				++x2;
+				break;
+			case 3:
+				++z2;
+				break;
+			}
 
-            switch (side)
-            {
-            case 0:
-                --x2;
-                break;
-            case 1:
-                --z2;
-                break;
-            case 2:
-                ++x2;
-                break;
-            case 3:
-                ++z2;
-                break;
-            }
+			int otherDecay = quantaPerBlock - getQuantaValue(world, x2, y, z2);
+			if(otherDecay >= quantaPerBlock)
+			{
+				if(!world.getBlockMaterial(x2, y, z2).blocksMovement())
+				{
+					otherDecay = quantaPerBlock - getQuantaValue(world, x2, y - 1, z2);
 
-            int otherDecay = quantaPerBlock - getQuantaValue(world, x2, y, z2);
-            if (otherDecay >= quantaPerBlock)
-            {
-                if (!world.getBlockMaterial(x2, y, z2).blocksMovement())
-                {
-                    otherDecay = quantaPerBlock - getQuantaValue(world, x2, y - 1, z2);
+					if(otherDecay >= 0)
+					{
+						int power = otherDecay - (decay - quantaPerBlock);
+						vec = vec.addVector((x2 - x) * power, (y - y) * power, (z2 - z) * power);
+					}
+				}
+			}
+			else if(otherDecay >= 0)
+			{
+				int power = otherDecay - decay;
+				vec = vec.addVector((x2 - x) * power, (y - y) * power, (z2 - z) * power);
+			}
+		}
 
-                    if (otherDecay >= 0)
-                    {
-                        int power = otherDecay - (decay - quantaPerBlock);
-                        vec = vec.addVector((x2 - x) * power, (y - y) * power, (z2 - z) * power);
-                    }
-                }
-            }
-            else if (otherDecay >= 0)
-            {
-                int power = otherDecay - decay;
-                vec = vec.addVector((x2 - x) * power, (y - y) * power, (z2 - z) * power);
-            }
-        }
+		if(world.getBlockId(x, y + 1, z) == blockID)
+		{
+			boolean flag = false;
 
-        if (world.getBlockId(x, y + 1, z) == blockID)
-        {
-            boolean flag = false;
+			if(this.isBlockSolid(world, x, y, z - 1, 2))
+			{
+				flag = true;
+			}
+			else if(this.isBlockSolid(world, x, y, z + 1, 3))
+			{
+				flag = true;
+			}
+			else if(this.isBlockSolid(world, x - 1, y, z, 4))
+			{
+				flag = true;
+			}
+			else if(this.isBlockSolid(world, x + 1, y, z, 5))
+			{
+				flag = true;
+			}
+			else if(this.isBlockSolid(world, x, y + 1, z - 1, 2))
+			{
+				flag = true;
+			}
+			else if(this.isBlockSolid(world, x, y + 1, z + 1, 3))
+			{
+				flag = true;
+			}
+			else if(this.isBlockSolid(world, x - 1, y + 1, z, 4))
+			{
+				flag = true;
+			}
+			else if(this.isBlockSolid(world, x + 1, y + 1, z, 5))
+			{
+				flag = true;
+			}
 
-            if (this.isBlockSolid(world, x, y, z - 1, 2))
-            {
-                flag = true;
-            }
-            else if (this.isBlockSolid(world, x, y, z + 1, 3))
-            {
-                flag = true;
-            }
-            else if (this.isBlockSolid(world, x - 1, y, z, 4))
-            {
-                flag = true;
-            }
-            else if (this.isBlockSolid(world, x + 1, y, z, 5))
-            {
-                flag = true;
-            }
-            else if (this.isBlockSolid(world, x, y + 1, z - 1, 2))
-            {
-                flag = true;
-            }
-            else if (this.isBlockSolid(world, x, y + 1, z + 1, 3))
-            {
-                flag = true;
-            }
-            else if (this.isBlockSolid(world, x - 1, y + 1, z, 4))
-            {
-                flag = true;
-            }
-            else if (this.isBlockSolid(world, x + 1, y + 1, z, 5))
-            {
-                flag = true;
-            }
-
-            if (flag)
-            {
-                vec = vec.normalize().addVector(0.0D, -6.0D, 0.0D);
-            }
-        }
-        vec = vec.normalize();
-        return vec;
-    }
-
+			if(flag)
+			{
+				vec = vec.normalize().addVector(0.0D, -6.0D, 0.0D);
+			}
+		}
+		vec = vec.normalize();
+		return vec;
+	}
 }

@@ -109,7 +109,8 @@
 		</exec>
 
 		<exec dir="${mcp.dir}" executable="sh" osfamily="unix">
-			<arg value="reobfuscate.sh --sgrnames" />
+			<arg value="reobfuscate.sh" />
+			<arg value="--srgnames" />
 		</exec>
 
 		<delete dir="${mcp.dir}/reobf/minecraft/buildcraft"/>

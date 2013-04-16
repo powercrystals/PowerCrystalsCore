@@ -50,15 +50,15 @@ public abstract class SliderVertical extends Control
 		
 		if(enabled && isPointInBounds(mouseX, mouseY))
 		{
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, containerScreen.mc.renderEngine.getTexture("/powercrystals/core/textures/button_hover.png"));
+			containerScreen.mc.renderEngine.bindTexture("/powercrystals/core/textures/button_hover.png");
 		}
 		else if(enabled)
 		{
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, containerScreen.mc.renderEngine.getTexture("/powercrystals/core/textures/button_enabled.png"));
+			containerScreen.mc.renderEngine.bindTexture("/powercrystals/core/textures/button_enabled.png");
 		}
 		else
 		{
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, containerScreen.mc.renderEngine.getTexture("/powercrystals/core/textures/button_disabled.png"));
+			containerScreen.mc.renderEngine.bindTexture("/powercrystals/core/textures/button_disabled.png");
 		}
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GuiRender.drawTexturedModalRect(sliderX,                   sliderY,                    0,                     0,                      sliderWidth / 2, sliderHeight / 2);

@@ -14,8 +14,8 @@ import net.minecraft.inventory.Container;
 @SideOnly(Side.CLIENT)
 public abstract class GuiScreenBase extends GuiContainer
 {
-	private List<Control> _controls = new LinkedList<Control>();
-	private String _backgroundTexture;
+	protected List<Control> _controls = new LinkedList<Control>();
+	protected String _backgroundTexture;
 
 	public GuiScreenBase(Container container, String backgroundTexture)
 	{

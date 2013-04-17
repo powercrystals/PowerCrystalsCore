@@ -47,22 +47,24 @@ public abstract class Button extends Control
 	@Override
 	public void drawForeground(int mouseX, int mouseY)
 	{
-		GuiColor textColor;
+		String text = containerScreen.fontRenderer.trimStringToWidth(_text, width - 4);
+		GuiRender.drawCenteredString(containerScreen.fontRenderer, text, x + width / 2, y + (height - 8) / 2, getTextColor(mouseX, mouseY));
+	}
+	
+	protected int getTextColor(int mouseX, int mouseY)
+	{
 		if(enabled && isPointInBounds(mouseX, mouseY))
 		{
-			textColor = new GuiColor(16777120);
+			return 16777120;
 		}
 		else if(enabled)
 		{
-			textColor = new GuiColor(14737632);
+			return 14737632;
 		}
 		else
 		{
-			textColor = new GuiColor(-6250336);
+			return -6250336;
 		}
-		
-		String text = containerScreen.fontRenderer.trimStringToWidth(_text, width - 4);
-		GuiRender.drawCenteredString(containerScreen.fontRenderer, text, x + width / 2, y + (height - 8) / 2, textColor.getColor());
 	}
 	
 	@Override

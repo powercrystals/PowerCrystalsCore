@@ -40,6 +40,22 @@ public abstract class ButtonOption extends Button
 		setSelectedIndex(nextValue);
 	}
 	
+	@Override
+	public void onRightClick()
+	{
+		int nextValue = _currentValue - 1;
+		
+		while(_values.get(nextValue) == null)
+		{
+			nextValue--;
+			if(nextValue < 0)
+			{
+				nextValue = _maxValue;
+			}
+		}
+		setSelectedIndex(nextValue);
+	}
+	
 	public int getSelectedIndex()
 	{
 		return _currentValue;

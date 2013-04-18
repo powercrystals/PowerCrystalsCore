@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import powercrystals.core.gui.Control;
-import powercrystals.core.gui.GuiColor;
 import powercrystals.core.gui.GuiRender;
 
 public abstract class Button extends Control
@@ -71,9 +70,23 @@ public abstract class Button extends Control
 	public boolean onMousePressed(int mouseX, int mouseY, int mouseButton)
 	{
 		containerScreen.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-		onClick();
+		if(mouseButton == 0)
+		{
+			onClick();
+		}
+		else if(mouseButton == 1)
+		{
+			onRightClick();
+		}
+		else if(mouseButton == 2)
+		{
+			onMiddleClick();
+		}
 		return true;
 	}
 	
 	public abstract void onClick();
+	
+	public void onRightClick() { }
+	public void onMiddleClick() { }
 }

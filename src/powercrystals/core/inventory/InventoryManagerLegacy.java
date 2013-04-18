@@ -22,7 +22,7 @@ public class InventoryManagerLegacy extends InventoryManagerStandard
 		int[] sides = new int[size];
 		for(int i = start; i < start + size; i++)
 		{
-			sides[i] = i;
+			sides[i - start] = i;
 		}
 		return sides;
 	}

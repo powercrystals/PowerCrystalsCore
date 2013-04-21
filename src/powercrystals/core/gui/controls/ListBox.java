@@ -158,6 +158,8 @@ public abstract class ListBox extends Control
 		{
 			_firstIndexDisplayed++;
 		}
+		
+		onScroll(_firstIndexDisplayed);
 	}
 	
 	public void scrollUp()
@@ -166,6 +168,21 @@ public abstract class ListBox extends Control
 		{
 			_firstIndexDisplayed--;
 		}
+		onScroll(_firstIndexDisplayed);
+	}
+	
+	public int getLastScrollPosition()
+	{
+		int position = _elements.size() - 1;
+		int heightUsed = _elements.get(position).getHeight();
+		
+		while(position > 0 && heightUsed < height)
+		{
+			position--;
+			heightUsed += _elements.get(position).getHeight();
+		}
+		
+		return position + 1;
 	}
 	
 	public int getSelectedIndex()
@@ -218,6 +235,8 @@ public abstract class ListBox extends Control
 	}
 	
 	protected void onElementClicked(IListBoxElement element) { };
+	
+	protected void onScroll(int newStartIndex) { };
 	
 	protected abstract void onSelectionChanged(int newIndex, IListBoxElement newElement);
 }

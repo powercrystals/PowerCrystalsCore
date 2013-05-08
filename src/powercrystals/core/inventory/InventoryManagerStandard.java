@@ -49,8 +49,8 @@ public class InventoryManagerStandard implements IInventoryManager
 				
 				if(canAddItem(add, i))
 				{
-					_inv.setInventorySlotContents(i, add);
 					quantitytoadd -= add.stackSize;
+					_inv.setInventorySlotContents(i, add);
 				}
 			}
 			else if(InventoryManager.stacksEqual(s, stack))
@@ -61,8 +61,8 @@ public class InventoryManagerStandard implements IInventoryManager
 				if(add.stackSize > 0 && canAddItem(add, i))
 				{
 					s.stackSize += add.stackSize;
-					_inv.setInventorySlotContents(i, s);
 					quantitytoadd -= add.stackSize;
+					_inv.setInventorySlotContents(i, s);
 				}
 			}
 			if(quantitytoadd == 0)

@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import powercrystals.core.block.IAirDropTarget;
 import powercrystals.core.inventory.IInventoryManager;
 import powercrystals.core.inventory.InventoryManager;
 import powercrystals.core.position.BlockPosition;

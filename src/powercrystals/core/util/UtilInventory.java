@@ -183,8 +183,7 @@ public abstract class UtilInventory
 		// (3) Having failed to put it in a chest or a pipe, drop it in the air if airdropdirection is a valid direction.
 		bp.orientation = airdropdirection;
 		bp.moveForwards(1);
-		TileEntity droppingInto = world.getBlockTileEntity(bp.x, bp.y, bp.z);
-		if(Arrays.asList(ForgeDirection.VALID_DIRECTIONS).contains(airdropdirection) && (world.isAirBlock(bp.x, bp.y, bp.z) || droppingInto != null && droppingInto instanceof IAirDropTarget))
+		if(Arrays.asList(ForgeDirection.VALID_DIRECTIONS).contains(airdropdirection) && world.isAirBlock(bp.x, bp.y, bp.z))
 		{
 			bp.moveBackwards(1);
 			dropStackInAir(stack, bp, world, airdropdirection);

@@ -2,6 +2,7 @@ package powercrystals.core.util;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -35,7 +36,7 @@ public abstract class UtilInventory
 	 */
 	public static Map<ForgeDirection, IPipeEntry> findPipes(World world, int x, int y, int z, ForgeDirection[] directionstocheck)
 	{
-		HashMap<ForgeDirection, IPipeEntry> pipes = new HashMap<ForgeDirection, IPipeEntry>();
+		Map<ForgeDirection, IPipeEntry> pipes = new LinkedHashMap<ForgeDirection, IPipeEntry>();
 		for(ForgeDirection direction : directionstocheck)
 		{
 			BlockPosition bp = new BlockPosition(x, y, z);
@@ -65,7 +66,7 @@ public abstract class UtilInventory
 	 */
 	public static Map<ForgeDirection, IInventory> findChests(World world, int x, int y, int z, ForgeDirection[] directionstocheck)
 	{
-		HashMap<ForgeDirection, IInventory> chests = new HashMap<ForgeDirection, IInventory>();
+		Map<ForgeDirection, IInventory> chests = new LinkedHashMap<ForgeDirection, IInventory>();
 		for(ForgeDirection direction : directionstocheck)
 		{
 			BlockPosition bp = new BlockPosition(x, y, z);

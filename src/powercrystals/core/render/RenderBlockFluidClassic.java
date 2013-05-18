@@ -226,12 +226,12 @@ public class RenderBlockFluidClassic implements ISimpleBlockRenderingHandler
 				if(!rises)
 				{
 					tessellator.setColorOpaque_F(f3 * f10, f3 * f10, f3 * f10);
-					renderer.renderFaceYNeg(block, x, y + d6, z, block.getIcon(0, bMeta));
+					renderer.renderBottomFace(block, x, y + d6, z, block.getIcon(0, bMeta));
 				}
 				else
 				{
 					tessellator.setColorOpaque_F(f4 * f10, f4 * f10, f4 * f10);
-					renderer.renderFaceYPos(block, x, y + d6, z, block.getIcon(1, bMeta));
+					renderer.renderTopFace(block, x, y + d6, z, block.getIcon(1, bMeta));
 				}
 			}
 

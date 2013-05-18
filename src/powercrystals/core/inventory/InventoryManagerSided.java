@@ -17,18 +17,18 @@ public class InventoryManagerSided extends InventoryManagerStandard
 	@Override
 	protected boolean canAddItem(ItemStack stack, int slot)
 	{
-		return _sidedInv.canInsertItem(slot, stack, _targetSide.ordinal());
+		return _sidedInv.func_102007_a(slot, stack, _targetSide.ordinal());
 	}
 	
 	@Override
 	protected boolean canRemoveItem(ItemStack stack, int slot)
 	{
-		return _sidedInv.canExtractItem(slot, stack, _targetSide.ordinal());
+		return _sidedInv.func_102008_b(slot, stack, _targetSide.ordinal());
 	}
 	
 	@Override
 	public int[] getSlots()
 	{
-		return _sidedInv.getAccessibleSlotsFromSide(_targetSide.ordinal());
+		return _sidedInv.getSizeInventorySide(_targetSide.ordinal());
 	}
 }

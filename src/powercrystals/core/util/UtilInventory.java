@@ -9,10 +9,8 @@ import java.util.Map.Entry;
 import buildcraft.api.transport.IPipeEntry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryLargeChest;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -245,42 +243,25 @@ public abstract class UtilInventory
 		entityitem.motionZ = 0.0D;
 		entityitem.delayBeforeCanPickup = 20;
 		world.spawnEntityInWorld(entityitem);
-	}
+		}
 
-
-	public static ItemStack consumeItem(ItemStack stack, EntityPlayer player)
+	public static ItemStack consumeItem(ItemStack stack)
 	{
-		if (stack == null)
+		if(stack.stackSize == 1)
 		{
-			return null;
-		}
-		
-		Item item = stack.getItem();
-
-		if (item == null)
-		{
-			return null;
-		}
-		
-		if (item.hasContainerItem())
-		{
-			ItemStack ret = item.getContainerItemStack(stack);
-			if (stack.stackSize < 2)
+			if(stack.getItem().hasContainerItem())
 			{
-				return ret;
+				return stack.getItem().getContainerItemStack(stack);
 			}
-			if (!player.inventory.addItemStackToInventory(ret))
+			else
 			{
-				player.dropPlayerItem(ret);
+				return null;
 			}
 		}
-		
-		stack.stackSize -= 1;
-		if (stack.stackSize > 1)
+		else
 		{
-			return stack;
-		}
-		return null;
+			return stack.splitStack(1);
+		}	
 	}
 
 	public static void mergeStacks(ItemStack to, ItemStack from)

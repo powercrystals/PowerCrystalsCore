@@ -276,7 +276,7 @@ public abstract class UtilInventory
 		}
 		
 		stack.stackSize -= 1;
-		if (stack.stackSize > 0)
+		if (stack.stackSize > 1)
 		{
 			return stack;
 		}

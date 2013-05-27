@@ -1,12 +1,12 @@
 package powercrystals.core.asm;
 
+import cpw.mods.fml.relauncher.IClassTransformer;
+
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
-
-import cpw.mods.fml.relauncher.IClassTransformer;
 
 public class PCCASMTransformer implements IClassTransformer {
 
@@ -19,6 +19,12 @@ public class PCCASMTransformer implements IClassTransformer {
             cr.accept(cn, ClassReader.EXPAND_FRAMES);
             ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
             cn.accept(cw);
+            /* new WorldServer constructor
+             * WorldServer(MinecraftServer minecraftServer,
+							ISaveHandler saveHandler, String worldName,
+							WorldProvider provider, WorldSettings worldSettings,
+							Profiler theProfiler, ILogAgent worldLogAgent)  
+            **/
             cw.newMethod("iz", "<init>", "(Lnet/minecraft/server/MinecraftServer;Lakf;Ljava/lang/String;Lacn;Laai;Lla;Lku;)V", true);
             MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC, "<init>", "(Lnet/minecraft/server/MinecraftServer;Lakf;Ljava/lang/String;Lacn;Laai;Lla;Lku;)V", null, null);
             mv.visitCode();
@@ -33,6 +39,7 @@ public class PCCASMTransformer implements IClassTransformer {
             mv.visitVarInsn(Opcodes.ALOAD, 5);
             mv.visitVarInsn(Opcodes.ALOAD, 6);
             mv.visitVarInsn(Opcodes.ALOAD, 7);
+            // [World] super(saveHandler, par2String, provider, par4WorldSettings, theProfiler, worldLogAgent);
             mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "aab", "<init>", "(Lakf;Ljava/lang/String;Lacn;Laai;Lla;Lku;)V");
             mv.visitVarInsn(Opcodes.ALOAD, 1);
             mv.visitFieldInsn(Opcodes.PUTFIELD, "iz", "a", "Lnet/minecraft/server/MinecraftServer;");

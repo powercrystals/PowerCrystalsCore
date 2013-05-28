@@ -25,7 +25,7 @@ public class PCCASMTransformer implements IClassTransformer {
 							WorldProvider provider, WorldSettings worldSettings,
 							Profiler theProfiler, ILogAgent worldLogAgent)  
             **/
-            cw.newMethod("iz", "<init>", "(Lnet/minecraft/server/MinecraftServer;Lakf;Ljava/lang/String;Lacn;Laai;Lla;Lku;)V", true);
+            cw.newMethod(name, "<init>", "(Lnet/minecraft/server/MinecraftServer;Lakf;Ljava/lang/String;Lacn;Laai;Lla;Lku;)V", true);
             MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC, "<init>", "(Lnet/minecraft/server/MinecraftServer;Lakf;Ljava/lang/String;Lacn;Laai;Lla;Lku;)V", null, null);
             mv.visitCode();
             mv.visitVarInsn(Opcodes.ALOAD, 0);
@@ -42,13 +42,13 @@ public class PCCASMTransformer implements IClassTransformer {
             // [World] super(saveHandler, par2String, provider, par4WorldSettings, theProfiler, worldLogAgent);
             mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "aab", "<init>", "(Lakf;Ljava/lang/String;Lacn;Laai;Lla;Lku;)V");
             mv.visitVarInsn(Opcodes.ALOAD, 1);
-            mv.visitFieldInsn(Opcodes.PUTFIELD, "iz", "a", "Lnet/minecraft/server/MinecraftServer;");
+            mv.visitFieldInsn(Opcodes.PUTFIELD, name, "a", "Lnet/minecraft/server/MinecraftServer;");
             mv.visitInsn(Opcodes.ACONST_NULL);
-            mv.visitFieldInsn(Opcodes.PUTFIELD, "iz", "J", "Lit;");
+            mv.visitFieldInsn(Opcodes.PUTFIELD, name, "J", "Lit;");
             mv.visitInsn(Opcodes.ACONST_NULL);
-            mv.visitFieldInsn(Opcodes.PUTFIELD, "iz", "K", "Liw;");
+            mv.visitFieldInsn(Opcodes.PUTFIELD, name, "K", "Liw;");
             mv.visitInsn(Opcodes.ACONST_NULL);
-            mv.visitFieldInsn(Opcodes.PUTFIELD, "iz", "P", "Laao;");
+            mv.visitFieldInsn(Opcodes.PUTFIELD, name, "P", "Laao;");
             mv.visitInsn(Opcodes.RETURN);
             mv.visitMaxs(7, 10);
             mv.visitEnd();

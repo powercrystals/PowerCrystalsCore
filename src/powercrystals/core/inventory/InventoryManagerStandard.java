@@ -38,7 +38,13 @@ public class InventoryManagerStandard implements IInventoryManager
 		
 		int quantitytoadd = stack.stackSize;
 		ItemStack remaining = stack.copy();
-		for(int i : getSlots())
+		int[] slots = getSlots();
+		if(slots == null)
+		{
+			return remaining;
+		}
+		
+		for(int i : slots)
 		{
 			int maxStackSize = Math.min(_inv.getInventoryStackLimit(), stack.getMaxStackSize());
 			ItemStack s = getSlotContents(i);
@@ -89,7 +95,14 @@ public class InventoryManagerStandard implements IInventoryManager
 		{
 			return null;
 		}
-		for(int i : getSlots())
+		
+		int[] slots = getSlots();
+		if(slots == null)
+		{
+			return null;
+		}
+		
+		for(int i : slots)
 		{
 			ItemStack s = getSlotContents(i);
 			if(s != null && canRemoveItem(s, i))
@@ -119,7 +132,14 @@ public class InventoryManagerStandard implements IInventoryManager
 		{
 			return null;
 		}
-		for(int i : getSlots())
+		
+		int[] slots = getSlots();
+		if(slots == null)
+		{
+			return null;
+		}
+		
+		for(int i : slots)
 		{
 			ItemStack s = getSlotContents(i);
 			if(InventoryManager.stacksEqual(s, type) && canRemoveItem(s, i))
@@ -165,7 +185,13 @@ public class InventoryManagerStandard implements IInventoryManager
 	@Override
 	public int findItem(ItemStack type)
 	{
-		for(int i : getSlots())
+		int[] slots = getSlots();
+		if(slots == null)
+		{
+			return -1;
+		}
+		
+		for(int i : slots)
 		{
 			ItemStack s = _inv.getStackInSlot(i);
 			if(InventoryManager.stacksEqual(s, type))

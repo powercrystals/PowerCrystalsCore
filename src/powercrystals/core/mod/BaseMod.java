@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Properties;
 
@@ -82,7 +83,7 @@ public abstract class BaseMod implements IUpdateableMod
 			try
 			{
 				Properties langPack = new Properties();
-				langPack.load(new FileInputStream(langFile));
+				langPack.load(new InputStreamReader(new FileInputStream(langFile), "UTF-8"));
 				String lang = langFile.getName().replace(".lang", "");
 				LanguageRegistry.instance().addStringLocalization(langPack, lang);
 			}

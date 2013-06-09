@@ -44,6 +44,10 @@ public abstract class BaseMod implements IUpdateableMod
 		for(String lang : languages)
 		{
 			InputStream is = this.getClass().getResourceAsStream(langResourceBase + lang + ".lang");
+			if(is == null)
+			{
+				continue;
+			}
 			try
 			{
 				OutputStream os = new FileOutputStream(_configFolder.getAbsolutePath() + "/" + lang + ".lang");

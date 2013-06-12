@@ -2,6 +2,7 @@ package powercrystals.core.asm;
 
 import cpw.mods.fml.relauncher.IClassTransformer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.objectweb.asm.ClassReader;
@@ -17,6 +18,7 @@ import powercrystals.core.asm.relauncher.Implementable;
 public class PCCASMTransformer implements IClassTransformer
 {
 	private String desc;
+	private ArrayList<String> workingPath = new ArrayList<String>();
 
 	public PCCASMTransformer()
 	{
@@ -29,6 +31,8 @@ public class PCCASMTransformer implements IClassTransformer
 		ClassReader cr = new ClassReader(bytes);
 		ClassNode cn = new ClassNode();
 		cr.accept(cn, 0);
+		
+		workingPath.add(transformedName);
 
 		if (this.implement(cn))
 		{
@@ -38,6 +42,8 @@ public class PCCASMTransformer implements IClassTransformer
 			bytes = cw.toByteArray();
 			cr = new ClassReader(bytes);
 		}
+		
+		workingPath.remove(workingPath.size() - 1);
 
 		if ("net.minecraft.world.WorldServer".equals(transformedName))
 		{
@@ -113,7 +119,10 @@ public class PCCASMTransformer implements IClassTransformer
 								if (!cn.interfaces.contains(cz))
 								{
 									try {
-										Class.forName(clazz, false, this.getClass().getClassLoader());
+										if (!workingPath.contains(clazz))
+										{
+											Class.forName(clazz, false, this.getClass().getClassLoader());
+										}
 										cn.interfaces.add(cz);
 										interfaces = true;
 									} catch (Throwable _) {}

@@ -54,8 +54,6 @@ public class PCCASMTransformer implements IClassTransformer
 		{
 			cn = new ClassNode(Opcodes.ASM4);
 			cr.accept(cn, ClassReader.EXPAND_FRAMES);
-			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
-			cn.accept(cw);
 
 			/* new WorldServer constructor
 			 * WorldServer(MinecraftServer minecraftServer,
@@ -88,7 +86,9 @@ public class PCCASMTransformer implements IClassTransformer
 			code.add(new InsnNode(Opcodes.RETURN));
 			
 			cn.methods.add(m);
-			
+
+			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
+			cn.accept(cw);
 			bytes = cw.toByteArray();
 		}
 

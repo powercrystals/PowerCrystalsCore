@@ -47,6 +47,16 @@ public class PCCASMTransformer implements IClassTransformer
 
 		if ("net.minecraft.world.WorldServer".equals(transformedName))
 		{
+			String[] names = null;
+			if (name.equals(transformedName))
+			{
+				names = new String[]{"mcServer","theEntityTracker","thePlayerManager","field_85177_Q"};
+			}
+			else
+			{
+				names = new String[]{"field_73061_a","field_73062_L","field_73063_M","field_85177_Q"};
+			}
+			name = name.replace('.', '/');
 			cn = new ClassNode(Opcodes.ASM4);
 			cr.accept(cn, ClassReader.EXPAND_FRAMES);
 			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
@@ -57,8 +67,9 @@ public class PCCASMTransformer implements IClassTransformer
 							WorldProvider provider, WorldSettings worldSettings,
 							Profiler theProfiler, ILogAgent worldLogAgent)
 			 **/
-			cw.newMethod(name, "<init>", "(Lnet/minecraft/server/MinecraftServer;Lakf;Ljava/lang/String;Lacn;Laai;Lla;Lku;)V", true);
-			MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC, "<init>", "(Lnet/minecraft/server/MinecraftServer;Lakf;Ljava/lang/String;Lacn;Laai;Lla;Lku;)V", null, null);
+			String sig = "(Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/world/storage/ISaveHandler;Ljava/lang/String;Lnet/minecraft/world/WorldProvider;Lnet/minecraft/world/WorldSettings;Lnet/minecraft/profiler/Profiler;Lnet/minecraft/logging/ILogAgent;)V";
+			cw.newMethod(name, "<init>", sig, true);
+			MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC, "<init>", sig, null, null);
 			mv.visitCode();
 			mv.visitVarInsn(Opcodes.ALOAD, 0);
 			mv.visitInsn(Opcodes.DUP);
@@ -72,15 +83,15 @@ public class PCCASMTransformer implements IClassTransformer
 			mv.visitVarInsn(Opcodes.ALOAD, 6);
 			mv.visitVarInsn(Opcodes.ALOAD, 7);
 			// [World] super(saveHandler, par2String, provider, par4WorldSettings, theProfiler, worldLogAgent);
-			mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "aab", "<init>", "(Lakf;Ljava/lang/String;Lacn;Laai;Lla;Lku;)V");
+			mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "net.minecraft.world.World", "<init>", "(Lnet/minecraft/world/storage/ISaveHandler;Ljava/lang/String;Lnet/minecraft/world/WorldProvider;Lnet/minecraft/world/WorldSettings;Lnet/minecraft/profiler/Profiler;Lnet/minecraft/logging/ILogAgent;)V");
 			mv.visitVarInsn(Opcodes.ALOAD, 1);
-			mv.visitFieldInsn(Opcodes.PUTFIELD, name, "a", "Lnet/minecraft/server/MinecraftServer;");
+			mv.visitFieldInsn(Opcodes.PUTFIELD, name, names[0], "Lnet/minecraft/server/MinecraftServer;");
 			mv.visitInsn(Opcodes.ACONST_NULL);
-			mv.visitFieldInsn(Opcodes.PUTFIELD, name, "J", "Lit;");
+			mv.visitFieldInsn(Opcodes.PUTFIELD, name, names[1], "Lnet/minecraft/entity/EntityTracker;");
 			mv.visitInsn(Opcodes.ACONST_NULL);
-			mv.visitFieldInsn(Opcodes.PUTFIELD, name, "K", "Liw;");
+			mv.visitFieldInsn(Opcodes.PUTFIELD, name, names[2], "Lnet/minecraft/server/management/PlayerManager;");
 			mv.visitInsn(Opcodes.ACONST_NULL);
-			mv.visitFieldInsn(Opcodes.PUTFIELD, name, "P", "Laao;");
+			mv.visitFieldInsn(Opcodes.PUTFIELD, name, names[3], "Lnet/minecraft/world/Teleporter;");
 			mv.visitInsn(Opcodes.RETURN);
 			mv.visitMaxs(11, 10);
 			mv.visitEnd();

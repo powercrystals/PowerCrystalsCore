@@ -92,7 +92,7 @@ public class PCCASMTransformer implements IClassTransformer
 		mv.visitInsn(Opcodes.DUP);
 		mv.visitInsn(Opcodes.DUP);
 		mv.visitInsn(Opcodes.DUP);
-		mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "java.lang.Object", "<init>", "()V");
+		mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/lang/Object", "<init>", "()V");
 		mv.visitVarInsn(Opcodes.ALOAD, 1);
 		mv.visitFieldInsn(Opcodes.PUTFIELD, name, names[0], "Lnet/minecraft/world/storage/ISaveHandler;");
 		mv.visitTypeInsn(Opcodes.NEW, "net.minecraft.world.storage.WorldInfo");
@@ -152,7 +152,7 @@ public class PCCASMTransformer implements IClassTransformer
 		mv.visitVarInsn(Opcodes.ALOAD, 6);
 		mv.visitVarInsn(Opcodes.ALOAD, 7);
 		// [World] super(saveHandler, par2String, provider, par4WorldSettings, theProfiler, worldLogAgent);
-		mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "net.minecraft.world.World", "<init>", "(Lnet/minecraft/world/storage/ISaveHandler;Ljava/lang/String;Lnet/minecraft/world/WorldProvider;Lnet/minecraft/world/WorldSettings;Lnet/minecraft/profiler/Profiler;Lnet/minecraft/logging/ILogAgent;)V");
+		mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "net/minecraft/world/World", "<init>", "(Lnet/minecraft/world/storage/ISaveHandler;Ljava/lang/String;Lnet/minecraft/world/WorldProvider;Lnet/minecraft/world/WorldSettings;Lnet/minecraft/profiler/Profiler;Lnet/minecraft/logging/ILogAgent;)V");
 		mv.visitVarInsn(Opcodes.ALOAD, 1);
 		mv.visitFieldInsn(Opcodes.PUTFIELD, name, names[0], "Lnet/minecraft/server/MinecraftServer;");
 		mv.visitInsn(Opcodes.ACONST_NULL);

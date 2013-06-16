@@ -7,16 +7,11 @@ import java.util.List;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.tree.VarInsnNode;
 
 import powercrystals.core.asm.relauncher.Implementable;
 
@@ -56,39 +51,40 @@ public class PCCASMTransformer implements IClassTransformer
 			cr.accept(cn, ClassReader.EXPAND_FRAMES);
 			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
 			cn.accept(cw);
-
 			/* new WorldServer constructor
 			 * WorldServer(MinecraftServer minecraftServer,
 							ISaveHandler saveHandler, String worldName,
 							WorldProvider provider, WorldSettings worldSettings,
 							Profiler theProfiler, ILogAgent worldLogAgent)
 			 **/
-			MethodNode m = new MethodNode(Opcodes.ASM4, Opcodes.ACC_PUBLIC, "<init>", "(Lnet/minecraft/server/MinecraftServer;Lakf;Ljava/lang/String;Lacn;Laai;Lla;Lku;)V", null, null);
-			InsnList code = m.instructions;
-			code.add(new VarInsnNode(Opcodes.ALOAD, 0));
-			code.add(new InsnNode(Opcodes.DUP));
-			code.add(new InsnNode(Opcodes.DUP));
-			code.add(new InsnNode(Opcodes.DUP));
-			code.add(new InsnNode(Opcodes.DUP));
-			code.add(new VarInsnNode(Opcodes.ALOAD, 2));
-			code.add(new VarInsnNode(Opcodes.ALOAD, 3));
-			code.add(new VarInsnNode(Opcodes.ALOAD, 4));
-			code.add(new VarInsnNode(Opcodes.ALOAD, 5));
-			code.add(new VarInsnNode(Opcodes.ALOAD, 6));
-			code.add(new VarInsnNode(Opcodes.ALOAD, 7));
-			code.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, "aab", "<init>", "(Lakf;Ljava/lang/String;Lacn;Laai;Lla;Lku;)V"));
-			code.add(new VarInsnNode(Opcodes.ALOAD, 1));
-			code.add(new FieldInsnNode(Opcodes.PUTFIELD, name, "a", "Lnet/minecraft/server/MinecraftServer;"));
-			code.add(new InsnNode(Opcodes.ACONST_NULL));
-			code.add(new FieldInsnNode(Opcodes.PUTFIELD, name, "J", "Lit;"));
-			code.add(new InsnNode(Opcodes.ACONST_NULL));
-			code.add(new FieldInsnNode(Opcodes.PUTFIELD, name, "J", "Liw;"));
-			code.add(new InsnNode(Opcodes.ACONST_NULL));
-			code.add(new FieldInsnNode(Opcodes.PUTFIELD, name, "J", "Laao;"));
-			code.add(new InsnNode(Opcodes.RETURN));
-			
-			cn.methods.add(m);
-			
+			cw.newMethod(name, "<init>", "(Lnet/minecraft/server/MinecraftServer;Lakf;Ljava/lang/String;Lacn;Laai;Lla;Lku;)V", true);
+			MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC, "<init>", "(Lnet/minecraft/server/MinecraftServer;Lakf;Ljava/lang/String;Lacn;Laai;Lla;Lku;)V", null, null);
+			mv.visitCode();
+			mv.visitVarInsn(Opcodes.ALOAD, 0);
+			mv.visitInsn(Opcodes.DUP);
+			mv.visitInsn(Opcodes.DUP);
+			mv.visitInsn(Opcodes.DUP);
+			mv.visitInsn(Opcodes.DUP);
+			mv.visitVarInsn(Opcodes.ALOAD, 2);
+			mv.visitVarInsn(Opcodes.ALOAD, 3);
+			mv.visitVarInsn(Opcodes.ALOAD, 4);
+			mv.visitVarInsn(Opcodes.ALOAD, 5);
+			mv.visitVarInsn(Opcodes.ALOAD, 6);
+			mv.visitVarInsn(Opcodes.ALOAD, 7);
+			// [World] super(saveHandler, par2String, provider, par4WorldSettings, theProfiler, worldLogAgent);
+			mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "aab", "<init>", "(Lakf;Ljava/lang/String;Lacn;Laai;Lla;Lku;)V");
+			mv.visitVarInsn(Opcodes.ALOAD, 1);
+			mv.visitFieldInsn(Opcodes.PUTFIELD, name, "a", "Lnet/minecraft/server/MinecraftServer;");
+			mv.visitInsn(Opcodes.ACONST_NULL);
+			mv.visitFieldInsn(Opcodes.PUTFIELD, name, "J", "Lit;");
+			mv.visitInsn(Opcodes.ACONST_NULL);
+			mv.visitFieldInsn(Opcodes.PUTFIELD, name, "K", "Liw;");
+			mv.visitInsn(Opcodes.ACONST_NULL);
+			mv.visitFieldInsn(Opcodes.PUTFIELD, name, "P", "Laao;");
+			mv.visitInsn(Opcodes.RETURN);
+			mv.visitMaxs(11, 10);
+			mv.visitEnd();
+			cw.visitEnd();
 			bytes = cw.toByteArray();
 		}
 

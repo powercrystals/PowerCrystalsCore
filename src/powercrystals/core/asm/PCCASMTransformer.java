@@ -1,8 +1,7 @@
 package powercrystals.core.asm;
 
-import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.FMLRelauncher;
 import cpw.mods.fml.relauncher.IClassTransformer;
-import cpw.mods.fml.relauncher.Side;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ public class PCCASMTransformer implements IClassTransformer
 {
 	private String desc;
 	private ArrayList<String> workingPath = new ArrayList<String>();
-	private boolean isClient = FMLCommonHandler.instance().getSide().isClient();
+	private boolean isClient = FMLRelauncher.side().equals("CLIENT");
 
 	public PCCASMTransformer()
 	{
@@ -35,7 +34,7 @@ public class PCCASMTransformer implements IClassTransformer
 		ClassReader cr = new ClassReader(bytes);
 		ClassNode cn = new ClassNode();
 		cr.accept(cn, 0);
-		
+
 		workingPath.add(transformedName);
 
 		if (this.implement(cn))
@@ -46,7 +45,7 @@ public class PCCASMTransformer implements IClassTransformer
 			bytes = cw.toByteArray();
 			cr = new ClassReader(bytes);
 		}
-		
+
 		workingPath.remove(workingPath.size() - 1);
 
 		if ("net.minecraft.world.WorldServer".equals(transformedName))
@@ -60,7 +59,7 @@ public class PCCASMTransformer implements IClassTransformer
 
 		return bytes;
 	}
-	
+
 	private byte[] writeWorld(String name, String transformedName, byte[] bytes, ClassReader cr)
 	{
 		String[] names = null;
@@ -72,13 +71,6 @@ public class PCCASMTransformer implements IClassTransformer
 		{
 			names = new String[]{"saveHandler","worldInfo","provider","theProfiler","worldLogAgent"};
 		}
-		/*
-this.saveHandler = par1ISaveHandler;
-this.worldInfo = new WorldInfo(par4WorldSettings, par2Str);
-this.provider = par3WorldProvider;
-this.theProfiler = par5Profiler;
-this.worldLogAgent = par6ILogAgent;
-		 */
 		ClassNode cn = new ClassNode(Opcodes.ASM4);
 		cr.accept(cn, ClassReader.EXPAND_FRAMES);
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
@@ -121,7 +113,7 @@ this.worldLogAgent = par6ILogAgent;
 		cw.visitEnd();
 		return cw.toByteArray();
 	}
-	
+
 	private byte[] writeWorldServer(String name, String transformedName, byte[] bytes, ClassReader cr)
 	{
 		String[] names = null;

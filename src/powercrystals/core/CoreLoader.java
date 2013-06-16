@@ -8,6 +8,8 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
 @MCVersion(value = "1.5.2")
 public class CoreLoader implements IFMLLoadingPlugin
 {
+	public static boolean runtimeDeobfEnabled = true;
+	
 	@Override
 	public String[] getLibraryRequestClass()
 	{
@@ -35,5 +37,6 @@ public class CoreLoader implements IFMLLoadingPlugin
 	@Override
 	public void injectData(Map<String, Object> data)
 	{
+		runtimeDeobfEnabled = (Boolean)data.get("runtimeDeobfuscationEnabled");
 	}
 }

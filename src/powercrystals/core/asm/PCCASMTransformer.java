@@ -80,9 +80,9 @@ public class PCCASMTransformer implements IClassTransformer
 			code.add(new InsnNode(Opcodes.ACONST_NULL));
 			code.add(new FieldInsnNode(Opcodes.PUTFIELD, name, "J", "Lit;"));
 			code.add(new InsnNode(Opcodes.ACONST_NULL));
-			code.add(new FieldInsnNode(Opcodes.PUTFIELD, name, "J", "Liw;"));
+			code.add(new FieldInsnNode(Opcodes.PUTFIELD, name, "K", "Liw;"));
 			code.add(new InsnNode(Opcodes.ACONST_NULL));
-			code.add(new FieldInsnNode(Opcodes.PUTFIELD, name, "J", "Laao;"));
+			code.add(new FieldInsnNode(Opcodes.PUTFIELD, name, "P", "Laao;"));
 			code.add(new InsnNode(Opcodes.RETURN));
 			
 			cn.methods.add(m);

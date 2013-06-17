@@ -108,7 +108,7 @@ public class PCCASMTransformer implements IClassTransformer
 		mv.visitVarInsn(Opcodes.ALOAD, 5);
 		mv.visitFieldInsn(Opcodes.PUTFIELD, name, names[3], "Lnet/minecraft/profiler/Profiler;");
 		mv.visitVarInsn(Opcodes.ALOAD, 6);
-		mv.visitFieldInsn(Opcodes.PUTFIELD, name, names[3], "Lnet/minecraft/logging/ILogAgent;");
+		mv.visitFieldInsn(Opcodes.PUTFIELD, name, names[4], "Lnet/minecraft/logging/ILogAgent;");
 		mv.visitInsn(Opcodes.RETURN);
 		mv.visitMaxs(11, 10);
 		mv.visitEnd();

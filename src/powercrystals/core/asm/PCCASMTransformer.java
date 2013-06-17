@@ -13,6 +13,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.MethodNode;
 
 import powercrystals.core.CoreLoader;
 import powercrystals.core.asm.relauncher.Implementable;
@@ -74,6 +75,7 @@ public class PCCASMTransformer implements IClassTransformer
 		name = name.replace('.', '/');
 		ClassNode cn = new ClassNode(Opcodes.ASM4);
 		cr.accept(cn, ClassReader.EXPAND_FRAMES);
+		
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
 		cn.accept(cw);
 		/* new World constructor
@@ -128,6 +130,15 @@ public class PCCASMTransformer implements IClassTransformer
 		name = name.replace('.', '/');
 		ClassNode cn = new ClassNode(Opcodes.ASM4);
 		cr.accept(cn, ClassReader.EXPAND_FRAMES);
+
+		for(MethodNode m : cn.methods)
+		{
+			if("<init>".equals(m.name) && "(Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/world/storage/ISaveHandler;Ljava/lang/String;Lnet/minecraft/world/WorldProvider;Lnet/minecraft/world/WorldSettings;Lnet/minecraft/profiler/Profiler;Lnet/minecraft/logging/ILogAgent;)V".equals(m.desc))
+			{
+				return bytes;
+			}
+		}
+		
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
 		cn.accept(cw);
 		/* new WorldServer constructor

@@ -3,6 +3,8 @@ package powercrystals.core.inventory;
 import java.util.HashMap;
 import java.util.Map;
 
+import powercrystals.core.util.UtilInventory;
+
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
@@ -59,7 +61,7 @@ public class InventoryManagerStandard implements IInventoryManager
 					_inv.setInventorySlotContents(i, add);
 				}
 			}
-			else if(InventoryManager.stacksEqual(s, stack))
+			else if(UtilInventory.stacksEqual(s, stack))
 			{
 				ItemStack add = stack.copy();
 				add.stackSize = Math.min(quantitytoadd, maxStackSize - s.stackSize);
@@ -142,7 +144,7 @@ public class InventoryManagerStandard implements IInventoryManager
 		for(int i : slots)
 		{
 			ItemStack s = getSlotContents(i);
-			if(InventoryManager.stacksEqual(s, type) && canRemoveItem(s, i))
+			if(UtilInventory.stacksEqual(s, type) && canRemoveItem(s, i))
 			{
 				int toRemove = Math.min(s.stackSize, maxRemove);
 				s.stackSize -= toRemove;
@@ -174,7 +176,7 @@ public class InventoryManagerStandard implements IInventoryManager
 		int quantity = 0;
 		for(ItemStack s : getContents().values())
 		{
-			if(InventoryManager.stacksEqual(s, type))
+			if(UtilInventory.stacksEqual(s, type))
 			{
 				quantity += s.stackSize;
 			}
@@ -194,7 +196,7 @@ public class InventoryManagerStandard implements IInventoryManager
 		for(int i : slots)
 		{
 			ItemStack s = _inv.getStackInSlot(i);
-			if(InventoryManager.stacksEqual(s, type))
+			if(UtilInventory.stacksEqual(s, type))
 			{
 				return i;
 			}

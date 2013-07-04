@@ -72,7 +72,7 @@ public abstract class UtilInventory
 			bp.orientation = direction;
 			bp.moveForwards(1);
 			TileEntity te = world.getBlockTileEntity(bp.x, bp.y, bp.z);
-			if(te != null && te instanceof IInventory)
+			if(te instanceof IInventory)
 			{
 				chests.put(direction, checkForDoubleChest(world, te, bp));
 			}
